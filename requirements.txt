@@ -1,0 +1,4 @@
+cython
+beautifulsoup
+pyramid
+scrapy
