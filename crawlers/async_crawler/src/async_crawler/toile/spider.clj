@@ -5,20 +5,22 @@
             [clj-http.client :as client]
             [net.cgrand.enlive-html :as html]))
 
-(defn grab [url]
+(defn fetch [url]
   (let [response (client/get url {:as :stream})
         {headers :headers
-        body :body
-        status :status} response
-        content (html/html-resource body)
-        title (html/text
-                (first (html/select content [[:title]])))
-        ]
-    (debug "Retrieved page with Title: " title)
+         body :body
+         status :status} response]
+    (debug "Fetched: " url)
     {:headers headers
-     :title title
-     :body content
+     :body body
      :status status}))
+
+(defn select [stream func]
+  (let [content (html/html-resource stream)]
+    (func content)))
+
+
+
 
 
 
