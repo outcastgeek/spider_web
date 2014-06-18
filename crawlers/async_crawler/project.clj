@@ -8,7 +8,8 @@
                  [org.zeromq/jeromq "0.3.4"]
                  [org.clojure/tools.logging "0.3.0"]
                  [ch.qos.logback/logback-classic "1.1.2"]
-                 [org.jsoup/jsoup "1.7.3"]]
+                 [clj-http "0.9.2"]
+                 [enlive "1.1.5"]]
   :main ^:skip-aot async-crawler.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
