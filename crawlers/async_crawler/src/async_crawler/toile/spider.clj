@@ -12,14 +12,8 @@
          status :status} response]
     (debug "Fetched: " url)
     {:headers headers
-     :body body
+     :body (html/html-resource body)
      :status status}))
-
-(defn select [stream func]
-  (let [content (html/html-resource stream)]
-    (func content)))
-
-
 
 
 

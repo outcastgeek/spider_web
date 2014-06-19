@@ -9,17 +9,20 @@
     (let [content (fetch "http://en.wikipedia.org")
           {status :status
            body :body} content
-          title-func (fn [content]
-                       (-> content
-                           (html/select [[:title]])
-                           first
-                           html/text))
-          title (select body title-func)
+          [title other] (map
+                          html/text
+                          (-> body
+                              (html/select #{[:title]
+                                             [:#Other_areas_of_Wikipedia]}))
+                          )
           ]
       (debug "Retrieved page with Title: " title)
+      (debug "#Other_areas_of_Wikipedia: " other)
       (is (= status
              200))
       (is (= title
              "Wikipedia, the free encyclopedia"))
+      (is (= other
+             "Other areas of Wikipedia"))
       )))
 
