@@ -5,7 +5,7 @@
   (:require [net.cgrand.enlive-html :as html]))
 
 (deftest test-grab
-  (testing "Grabbing"
+  (testing "Fetching"
     (let [content (fetch "http://en.wikipedia.org")
           {status :status
            body :body} content
@@ -24,5 +24,12 @@
              "Wikipedia, the free encyclopedia"))
       (is (= other
              "Other areas of Wikipedia"))
-      )))
+      ))
+  (testing "Collecting"
+    (let [content (fetch "http://en.wikipedia.org")
+          collected_urls (urls content)]
+      (is (= (first collected_urls)
+             "http://en.wikipedia.org/wiki/Wikipedia")
+          (= (second collected_urls)
+             "http://en.wikipedia.org/wiki/Free_content")))))
 
