@@ -9,4 +9,5 @@ pom.xml.asc
 /.nrepl-port
 /.idea
 /async_crawler.iml
+/logs
 
