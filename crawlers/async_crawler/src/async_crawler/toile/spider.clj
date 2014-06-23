@@ -1,8 +1,7 @@
 (ns async-crawler.toile.spider
   (:use clojure.pprint
         clojure.tools.logging)
-  (:require [clojure.core.async :as async :refer [>! <! <!! alts!! close! chan sliding-buffer go]]
-            [clj-http.client :as client]
+  (:require [clj-http.client :as client]
             [net.cgrand.enlive-html :as html]))
 
 (defn- is_url? [href]
@@ -12,7 +11,11 @@
     (nil? url_match)))
 
 (defn fetch [url]
-  (let [response (client/get url {:as :stream})
+  (let [response (try
+                   (client/get url {:as :stream})
+                   (catch Exception e
+                     (error "ERROR::::" e)
+                     {}))
         {headers :headers
          body :body
          status :status} response
@@ -20,7 +23,7 @@
                   (.endsWith url "/")
                     (. url substring 0 (- (count url) 1))
                   :else url)]
-    (debug "Fetched: " address)
+    ;(debug "Fetched: " address)
     {:url address
      :headers headers
      :body (html/html-resource body)
@@ -37,7 +40,7 @@
                      (.startsWith % "/") (str url %)
                      :else (str url "/" %)) no-frag-hrefs)
         ]
-    (debug (format "Retrieved %d urls from %s" (count urls) url))
+    ;(debug (format "Retrieved %d urls from %s" (count urls) url))
     urls))
 
 
