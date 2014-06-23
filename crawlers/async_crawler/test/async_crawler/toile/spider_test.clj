@@ -27,7 +27,9 @@
       ))
   (testing "Collecting"
     (let [content (fetch "http://en.wikipedia.org")
-          collected_urls (urls content)]
+          collected_urls (urls content)
+          text (html->str content)]
+      (debug text)
       (is (= (first collected_urls)
              "http://en.wikipedia.org/wiki/Wikipedia")
           (= (second collected_urls)

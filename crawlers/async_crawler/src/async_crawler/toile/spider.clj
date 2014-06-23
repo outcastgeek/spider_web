@@ -1,8 +1,14 @@
 (ns async-crawler.toile.spider
   (:use clojure.pprint
-        clojure.tools.logging)
+        clojure.tools.logging
+        [clojure.java.io :only [input-stream]])
   (:require [clj-http.client :as client]
-            [net.cgrand.enlive-html :as html]))
+            [net.cgrand.enlive-html :as html])
+  (:import (java.io ByteArrayInputStream)
+           (org.apache.tika.sax BodyContentHandler)
+           (org.apache.tika.metadata Metadata)
+           (org.apache.tika.parser ParseContext)
+           (org.apache.tika.parser.html HtmlParser)))
 
 (defn- is_url? [href]
   (let [url_match (re-find
@@ -12,7 +18,7 @@
 
 (defn fetch [url]
   (let [response (try
-                   (client/get url {:as :stream})
+                   (client/get url {:as :byte-array})
                    (catch Exception e
                      (error "ERROR::::" e)
                      {}))
@@ -26,7 +32,9 @@
     ;(debug "Fetched: " address)
     {:url address
      :headers headers
-     :body (html/html-resource body)
+     :body (html/html-resource
+             (input-stream body))
+     :stream (input-stream body)
      :status status}))
 
 (defn urls [pdata]
@@ -42,6 +50,18 @@
         ]
     ;(debug (format "Retrieved %d urls from %s" (count urls) url))
     urls))
+
+;; Borrowed from here: https://github.com/dakrone/itsy/blob/master/src/itsy/extract.clj
+(defn html->str
+  "Convert HTML to plain text using Apache Tika"
+  [pdata]
+  (let [stream (:stream pdata)
+        handler (BodyContentHandler.)
+        metadata (Metadata.)
+        parser (HtmlParser.)]
+    (.parse parser stream handler metadata (ParseContext.))
+    (.toString handler)))
+
 
 
 
