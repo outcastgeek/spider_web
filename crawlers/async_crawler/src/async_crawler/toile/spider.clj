@@ -30,7 +30,7 @@
   (let [req-chan (chan)]
     (client/get url
                 {:as :byte-array
-                 :timeout 60000}
+                 :timeout 200}
                 (fn [resp]
                   (put! req-chan resp)))
     req-chan))

@@ -28,12 +28,15 @@
     ))
 
 (defn seed [urls]
-  (doseq [url urls]
-    (go
+  (go
+    (doseq [url urls]
       (crawl url))))
 
 (comment
   (seed [
+          "http://www.mongodb.org/"
+          "http://redis.io/"
+          "https://stackoverflow.com/questions/21901058/rate-limiting-core-async-channels-in-clojure"
           "http://www.imdb.com/"
           "http://allafrica.com/cotedivoire/"
           "http://outcastgeek.com/"

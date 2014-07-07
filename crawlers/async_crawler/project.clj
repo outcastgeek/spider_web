@@ -14,6 +14,6 @@
                  [org.apache.tika/tika-parsers "1.5"]
                  [com.taoensso/carmine "2.6.2"]]
   :main ^:skip-aot async-crawler.core
-  ;:aot :all
+  :aot :all
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})

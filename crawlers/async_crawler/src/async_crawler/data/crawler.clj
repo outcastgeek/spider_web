@@ -21,16 +21,18 @@
                                   (not_included? item)
                                 (debug "Does not include: " item)
                                 item))
-        new_items (->> coll
-                       (pmap filter_out_existing)
-                       (remove nil?))]
-    (doseq [new_item new_items]
-      (debug "Publishing: " new_item)
-      (go
-        (>! callback_chan new_item))
-      (go
-        (wcar*
-          (car/sadd coll_name new_item))))
+        new_items_chan (->> (to-chan coll)
+                            (async/map< filter_out_existing)
+                            (async/remove< nil?))]
+    (go-loop []
+             (when-let [new_item (<! new_items_chan)]
+               (debug "Publishing: " new_item)
+               (go
+                 (>! callback_chan new_item))
+               (go
+                 (wcar*
+                   (car/sadd coll_name new_item)))
+               (recur)))
     ))
 
 
