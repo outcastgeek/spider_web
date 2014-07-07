@@ -6,40 +6,35 @@
             [async-crawler.toile.spider :as spider]
             [clojure.core.async
              :as async
-             :refer [>! <! >!! <!! alts!! close! chan sliding-buffer go go-loop onto-chan timeout]])
+             :refer [chan go >! go-loop <! <!! timeout]]
+            [async-crawler.data.crawler :as crwl])
   (:gen-class))
 
-(def visited_urls
-  (agent
-    (set [])
-    :validator #(and
-                 (every? (comp not nil?) %)
-                 (every? string? %))
-    :error-handler #(error
-                     (format "Whoops!! << %s >> had a problem: << %s >>\nCurrent State: << %s >>"
-                             %1 (agent-error %2) @%1))
-    ))
-
-(defn crawl [idf agnt old_urls new_urls]
-  ;(debug
-  ;  (format "%s ==>> %s" agnt idf))
+(defn crawl [new_url]
   (go
-    (let [urls_to_crawl (cljset/difference new_urls old_urls)
-          collected_urls (flatten
-                           (pmap (comp
-                                  spider/urls
-                                  spider/fetch)
-                                urls_to_crawl))]
-      (send visited_urls cljset/union (set collected_urls)))
+    (<! (timeout 4000))
+    (let [urls_chan (chan)
+          process_url (comp
+                        spider/urls
+                        <!!
+                        spider/fetch)
+          collected_urls (process_url new_url)]
+      (debug "Collected Urls: " collected_urls)
+      (crwl/store "visited_urls" urls_chan collected_urls)
+      (go-loop []
+               (when-let [url (<! urls_chan)]
+                 (crawl url)
+                 (recur))))
     ))
-
-(add-watch visited_urls :crawl crawl)
 
 (defn seed [urls]
-  (send visited_urls cljset/union (set urls)))
+  (doseq [url urls]
+    (go
+      (crawl url))))
 
 (comment
   (seed [
+          "http://www.imdb.com/"
           "http://allafrica.com/cotedivoire/"
           "http://outcastgeek.com/"
           "http://vieupai.com/"
@@ -54,7 +49,8 @@
           "http://www.fifa.com/"
           "http://www.fifa.com/worldcup/news/"
           "https://www.yahoo.com/"
-          ]))
+          ])
+  )
 
 (defn -main
   "I don't do a whole lot ... yet."

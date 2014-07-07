@@ -2,8 +2,11 @@
   (:use clojure.pprint
         clojure.tools.logging
         [clojure.java.io :only [input-stream]])
-  (:require [clj-http.client :as client]
-            [net.cgrand.enlive-html :as html])
+  (:require [org.httpkit.client :as client]
+            [net.cgrand.enlive-html :as html]
+            [clojure.core.async
+             :as async
+             :refer [chan go put! >! <! <!! timeout]])
   (:import (java.io ByteArrayInputStream)
            (org.apache.tika.sax BodyContentHandler)
            (org.apache.tika.metadata Metadata)
@@ -16,26 +19,45 @@
                     href)]
     (nil? url_match)))
 
+(defn throw-err [e]
+  (when (instance? Throwable e) (throw e))
+  e)
+
+(defmacro <? [ch]
+  `(throw-err (async/<! ~ch)))
+
+(defn- http-get [url]
+  (let [req-chan (chan)]
+    (client/get url
+                {:as :byte-array
+                 :timeout 60000}
+                (fn [resp]
+                  (put! req-chan resp)))
+    req-chan))
+
 (defn fetch [url]
-  (let [response (try
-                   (client/get url {:as :byte-array})
-                   (catch Exception e
-                     (error "ERROR::::" e)
-                     {}))
-        {headers :headers
-         body :body
-         status :status} response
-        address (cond
-                  (.endsWith url "/")
-                    (. url substring 0 (- (count url) 1))
-                  :else url)]
-    ;(debug "Fetched: " address)
-    {:url address
-     :headers headers
-     :body (html/html-resource
-             (input-stream body))
-     :stream (input-stream body)
-     :status status}))
+  (debug "Fetching: " url)
+  (let [data-chan (chan)]
+    (go
+      (try
+        (let [response (<? (http-get url))
+              {headers :headers
+               body :body
+               status :status} response
+              address (cond
+                        (.endsWith url "/")
+                        (. url substring 0 (- (count url) 1))
+                        :else url)]
+          (>! data-chan {:url address
+                         :headers headers
+                         :body (html/html-resource
+                                 (input-stream body))
+                         :stream (input-stream body)
+                         :status status}))
+        (catch Exception e
+               (>! data-chan {:url url :body ""})
+               (error "ERROR::::" e))))
+    data-chan))
 
 (defn urls [pdata]
   (let [url (:url pdata)
@@ -48,7 +70,7 @@
                      (.startsWith % "/") (str url %)
                      :else (str url "/" %)) no-frag-hrefs)
         ]
-    ;(debug (format "Retrieved %d urls from %s" (count urls) url))
+    (debug (format "Retrieved %d urls from %s" (count urls) url))
     urls))
 
 ;; Borrowed from here: https://github.com/dakrone/itsy/blob/master/src/itsy/extract.clj

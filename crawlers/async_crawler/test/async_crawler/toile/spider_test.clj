@@ -2,11 +2,14 @@
   (:use clojure.test
         clojure.tools.logging
         async-crawler.toile.spider)
-  (:require [net.cgrand.enlive-html :as html]))
+  (:require [net.cgrand.enlive-html :as html]
+            [clojure.core.async
+             :as async
+             :refer [<!!]]))
 
 (deftest test-grab
   (testing "Fetching"
-    (let [content (fetch "http://en.wikipedia.org")
+    (let [content (<!! (fetch "http://en.wikipedia.org"))
           {status :status
            body :body} content
           [title other] (map
@@ -26,7 +29,7 @@
              "Other areas of Wikipedia"))
       ))
   (testing "Collecting"
-    (let [content (fetch "http://en.wikipedia.org")
+    (let [content (<!! (fetch "http://en.wikipedia.org"))
           collected_urls (urls content)
           text (html->str content)]
       (debug text)

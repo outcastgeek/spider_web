@@ -8,10 +8,12 @@
                  [org.zeromq/jeromq "0.3.4"]
                  [org.clojure/tools.logging "0.3.0"]
                  [ch.qos.logback/logback-classic "1.1.2"]
-                 [clj-http "0.9.2"]
+                 [http-kit "2.1.18"]
                  [enlive "1.1.5"]
                  [org.apache.tika/tika-core "1.5"]
-                 [org.apache.tika/tika-parsers "1.5"]]
+                 [org.apache.tika/tika-parsers "1.5"]
+                 [com.taoensso/carmine "2.6.2"]]
   :main ^:skip-aot async-crawler.core
+  ;:aot :all
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
