@@ -68,7 +68,8 @@
         no-frag-hrefs (remove #(.startsWith % "#") not-nil-hrefs)
         urls (pmap #(cond
                      (.startsWith % "/") (str url %)
-                     :else (str url "/" %)) no-frag-hrefs)
+                     :else %) no-frag-hrefs)
+                     ;:else (str url "/" %)) no-frag-hrefs)
         ]
     (debug (format "Retrieved %d urls from %s" (count urls) url))
     urls))
