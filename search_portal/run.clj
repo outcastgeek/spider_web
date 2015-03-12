@@ -1,6 +1,7 @@
 (ns runner
-    (:require [search-portal.server :as server]))
+    (:require[search-portal.server :as server]))
 
-(server/-main)
+;(server/-main)
+(server/run-dev)
 
 

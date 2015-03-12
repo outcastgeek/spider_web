@@ -79,7 +79,6 @@
               ;::bootstrap/type :immutant
               ::bootstrap/type :jetty
               ;;::bootstrap/host "localhost"
-              ;;::bootstrap/port 8080
-              ::bootstrap/port 1919
+              ::bootstrap/port 8080
               })
 

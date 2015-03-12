@@ -5,11 +5,15 @@
 
 (defn enhance-templates!
     []
-    ;; Cache Compiled Template
-    (selmer/cache-on!)
     ;; Add Filters
     (filters/add-filter! :embiginate clojure.string/upper-case)
     (filters/add-filter! :empty empty?))
+
+(comment
+    ;; Control Template Caching
+    (selmer/cache-on!)
+    (selmer/cache-off!)
+    )
 
 (defn render-only
     [tmpl-string data]
@@ -19,6 +23,10 @@
     [tmpl-string data]
     (ring-resp/response
         (selmer/render tmpl-string data)))
+
+(defn render-file-only
+    [filename context-map]
+    (selmer/render filename context-map))
 
 (defn render-file
     [filename context-map]
