@@ -3,36 +3,46 @@
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [io.pedestal.http.route.definition :refer [defroutes]]
-            [ring.util.response :as ring-resp]
-            [selmer.parser :as selmer]))
+            [search-portal.helpers.view :as view]))
 
-;; Cache Compiled Template
-(selmer.parser/cache-on!)
-
-(defn about-page
-  [request]
-  (ring-resp/response (format "Clojure %s - served from %s"
-                              (clojure-version)
-                              (route/url-for ::about-page))))
+;(defn about-page
+;  [request]
+;  (view/render (format "Clojure %s - served from %s"
+;                              (clojure-version)
+;                              (route/url-for ::about-page))))
 
 ;(defn home-page
 ;  [request]
 ;  (ring-resp/response "Hello World!"))
 
+(view/enhance-templates!)
+
 (defn home-page
   [request]
-  (ring-resp/response
-    (selmer/render-file "templates/home.jinja2"
-                        {:page "Home"
-                         :greeting "Hello World!!!"})))
+  (view/render-file "templates/home.jinja2"
+                    {:page "Home"
+                     :summary "Hello World!!!"}))
+
+(defn about-page
+    [request]
+    (view/render-file "templates/home.jinja2"
+                      {:page "About"
+                       :summary (view/render-only "{{ shout|embiginate }}"
+                                                   {:shout (format "Clojure %s - served from %s"
+                                                                   (clojure-version)
+                                                                   (route/url-for ::about-page))})}))
 
 (defn gae-start
     [request]
-    (ring-resp/response "Application Started"))
+    (view/render-file"templates/home.jinja2"
+                     {:page "Start"
+                      :summary "Application Started"}))
 
 (defn gae-health
     [request]
-    (ring-resp/response "Healthy Application"))
+    (view/render-file "templates/home.jinja2"
+                      {:page "Health"
+                       :summary "Healthy Application"}))
 
 (defroutes routes
   [[["/" {:get home-page}
@@ -66,7 +76,10 @@
               ::bootstrap/resource-path "/public"
 
               ;; Either :jetty, :immutant or :tomcat (see comments in project.clj)
+              ;::bootstrap/type :immutant
               ::bootstrap/type :jetty
               ;;::bootstrap/host "localhost"
-              ::bootstrap/port 8080})
+              ;;::bootstrap/port 8080
+              ::bootstrap/port 1919
+              })
 

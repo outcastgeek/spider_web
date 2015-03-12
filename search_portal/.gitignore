@@ -3,4 +3,6 @@ tmp/
 logs/
 .idea
 search_portal.iml
+.nrepl-port
+
 

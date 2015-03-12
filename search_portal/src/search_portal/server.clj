@@ -26,6 +26,10 @@
       server/create-server
       server/start))
 
+(comment
+  (run-dev)
+  )
+
 (defn -main
   "The entry-point for 'lein run'"
   [& args]
