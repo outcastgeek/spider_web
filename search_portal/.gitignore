@@ -1,0 +1,6 @@
+target/
+tmp/
+logs/
+.idea
+search_portal.iml
+
