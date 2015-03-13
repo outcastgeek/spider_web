@@ -15,6 +15,16 @@ vm_settings:
 #- url: .*
 #  script: main.app
 
+skip_files:
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
+- ^\.idea$
+- ^logs$
+- ^target
+
 
 
 
