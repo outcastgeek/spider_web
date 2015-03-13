@@ -16,6 +16,8 @@
                  [org.slf4j/jul-to-slf4j "1.7.7"]
                  [org.slf4j/jcl-over-slf4j "1.7.7"]
                  [org.slf4j/log4j-over-slf4j "1.7.7"]
+
+                 [clj-http "1.0.1"]
                  ;; Database
                  [yesql "0.4.0"]
                  [mysql/mysql-connector-java "5.1.32"]
@@ -24,8 +26,8 @@
                  ;; Django templates for Clojure
                  [selmer "0.8.2"]
                  [markdown-clj "0.9.64"]
-                 [buddy "0.4.1"]
                  ;; Security
+                 [buddy "0.4.1"]
                  [bouncer "0.3.2"]
                  ;;[com.cemerick/friend "0.2.1"]
                  ]

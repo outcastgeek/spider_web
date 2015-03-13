@@ -3,7 +3,8 @@
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [io.pedestal.http.route.definition :refer [defroutes]]
-            [search-portal.helpers.view :as view]))
+            [search-portal.helpers.view :as view]
+            [clj-http.client :as client]))
 
 ;(defn about-page
 ;  [request]
@@ -32,6 +33,11 @@
                                                                    (clojure-version)
                                                                    (route/url-for ::about-page))})}))
 
+(defn proxied-page
+    [request]
+    (let [gpage (client/get "http://google.com")]
+        gpage))
+
 (defn gae-start
     [request]
     (view/render-file"templates/home.jinja2"
@@ -49,6 +55,7 @@
      ;; Set default interceptors for /about and any other paths under /
      ^:interceptors [(body-params/body-params) bootstrap/html-body]
      ["/about" {:get about-page}]
+     ["/goog" {:get proxied-page}]
      ;; GAE Application Lifecycle Handlers
      ["/_ah/start" {:get gae-start}]
      ["/_ah/health" {:get gae-health}]]]])
