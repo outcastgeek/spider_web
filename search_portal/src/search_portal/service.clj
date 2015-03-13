@@ -18,6 +18,10 @@
 
 (view/enhance-templates!)
 
+;; Check this out: https://www.google.com/search?client=opera&q=clojure+pedestal+interceptors+example&sourceid=opera&ie=UTF-8&oe=UTF-8
+;; Check this out: http://stackoverflow.com/questions/17797647/how-to-write-a-simple-error-interceptor
+;; Check this out: http://frankiesardo.github.io/blog/2014/12/15/give-pedestal-another-chance/
+
 (defn home-page
   [request]
   (view/render-file "templates/home.jinja2"
@@ -54,7 +58,7 @@
   [[["/" {:get home-page}
      ;; Set default interceptors for /about and any other paths under /
      ^:interceptors [(body-params/body-params) bootstrap/html-body]
-     ["/about" {:get about-page}]
+     ["/about" {:get [:about about-page]}]
      ["/goog" {:get proxied-page}]
      ;; GAE Application Lifecycle Handlers
      ["/_ah/start" {:get gae-start}]
