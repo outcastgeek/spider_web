@@ -3,6 +3,7 @@
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [io.pedestal.http.route.definition :refer [defroutes]]
+            [io.pedestal.interceptor :refer [definterceptor]]
             [search-portal.helpers.view :as view]
             [clj-http.client :as client]))
 
@@ -54,11 +55,22 @@
                       {:page "Health"
                        :summary "Healthy Application"}))
 
+(definterceptor not-found []
+                (interceptor
+                    :error (fn [context error]
+                               (assoc context :response
+                                              {:status 404
+                                               :body (view/render-file-only "templates/error/404.jinja2"
+                                                                            {:page "404 Not Found"
+                                                                             :message (str error)})
+                                               :headers {"Content-Type" "text/html"}}))
+                    ))
+
 (defroutes routes
   [[["/" {:get home-page}
      ;; Set default interceptors for /about and any other paths under /
      ^:interceptors [(body-params/body-params) bootstrap/html-body]
-     ["/about" {:get [:about about-page]}]
+     ["/about" {:get about-page}]
      ["/goog" {:get proxied-page}]
      ;; GAE Application Lifecycle Handlers
      ["/_ah/start" {:get gae-start}]
@@ -72,7 +84,6 @@
               ;; dev-mode. If you do, many other keys for configuring
               ;; default interceptors will be ignored.
               ;; :bootstrap/interceptors []
-              ::bootstrap/routes routes
 
               ;; Uncomment next line to enable CORS support, add
               ;; string(s) specifying scheme, host and port for

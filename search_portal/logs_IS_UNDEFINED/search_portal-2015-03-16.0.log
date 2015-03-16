@@ -1,0 +1,383 @@
+15:07:28.691 [main] INFO  org.eclipse.jetty.util.log - Logging initialized @13782ms
+16:43:01.502 [main] INFO  org.eclipse.jetty.util.log - Logging initialized @24406ms
+16:43:46.768 [main] INFO  org.eclipse.jetty.util.log - Logging initialized @4066ms
+16:43:46.978 [main] INFO  org.eclipse.jetty.server.Server - jetty-9.2.z-SNAPSHOT
+16:43:46.999 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@17947e6d{/,null,AVAILABLE}
+16:43:47.071 [main] INFO  o.e.jetty.server.ServerConnector - Started ServerConnector@43acd79e{HTTP/1.1}{0.0.0.0:8080}
+16:43:47.071 [main] INFO  org.eclipse.jetty.server.Server - Started @4375ms
+16:43:58.977 [qtp367725289-24] INFO  io.pedestal.http - {:line 69, :msg "GET /"}
+16:43:59.114 [qtp367725289-24] INFO  io.pedestal.http - {:line 69, :msg "GET /static/css/normalize.css"}
+16:43:59.117 [qtp367725289-26] INFO  io.pedestal.http - {:line 69, :msg "GET /static/css/navbar.css"}
+16:43:59.136 [qtp367725289-27] INFO  io.pedestal.http - {:line 69, :msg "GET /static/css/main.css"}
+16:43:59.137 [qtp367725289-29] INFO  io.pedestal.http - {:line 69, :msg "GET /static/js/plugins.js"}
+16:43:59.136 [qtp367725289-30] INFO  io.pedestal.http - {:line 69, :msg "GET /static/js/main.js"}
+16:43:59.142 [qtp367725289-28] INFO  io.pedestal.http - {:line 69, :msg "GET /static/js/vendor/modernizr-2.8.3.min.js"}
+16:43:59.316 [qtp367725289-31] INFO  io.pedestal.http - {:line 69, :msg "GET /favicon.ico"}
+16:43:59.363 [qtp367725289-31] ERROR i.p.http.impl.servlet-interceptor - {:line 292, :msg "error-stylobate triggered", :context {:response {:headers {"Content-Type" "image/x-icon", "X-XSS-Protection" "1; mode=block", "X-Content-Type-Options" "nosniff", "X-Frame-Options" "DENY", "Strict-Transport-Security" "max-age=31536000; includeSubdomains"}}, :request {:io.pedestal.http.impl.servlet-interceptor/async-supported? true, :remote-addr "127.0.0.1", :servlet-context #<Context ServletContext@o.e.j.s.ServletContextHandler@17947e6d{/,null,AVAILABLE}>, :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:43:59 GMT
+
+>, :servlet-path "", :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :headers {"cookie" "_phx_web_key=cmZ0MlMzRDk1ZlFQL3h3Z0RuMW5NR0NNSXp6RnQxbE9SVkVab1U5a2FaUT0tLTY0UXkvWnNta3NOUHBMdC9lQ2U5cGc9PQ==--/kE/e5IShGgrhQri4fzE/z0yQHU=; session=.eJxNzMEKgkAQANBfiTl3cW0vgodg9RDMLsqEzFyErHR3saACE_Hf89jp3d4Crb9CtsDuAhmIqQ6sOLUjpmKGwEFGS2XgptBoTlGompHiF5tzDuseuvfr3n6e8fb4LyYk1M6wxlAoqzBh6hMJnXZN7WWso4TBM5Wb_ezoONkq37r1BwNpLL0.B-JFhg.JEDilaaAlg5WrBwAiKC3gaidEhs; _gat=1; _ga=GA1.1.533649088.1426177041", "accept" "*/*", "connection" "keep-alive", "user-agent" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36 OPR/27.0.1689.76", "host" "localhost:8080", "accept-encoding" "gzip, deflate, lzma, sdch", "accept-language" "en-US,en;q=0.8"}, :server-port 8080, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.http.impl.servlet-interceptor/protocol "HTTP/1.1", :path-info "/favicon.ico", :uri "/favicon.ico", :server-name "localhost", :query-string nil, :body #<HttpInputOverHTTP HttpInputOverHTTP@581acd5c>, :scheme :http, :request-method :get, :context-path ""}, :enter-async [#<servlet_interceptor$start_servlet_async io.pedestal.http.impl.servlet_interceptor$start_servlet_async@256f88d6>], :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:43:59 GMT
+
+>, :route nil, :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.impl.interceptor/terminators (#<servlet_interceptor$terminator_inject$fn__8869 io.pedestal.http.impl.servlet_interceptor$terminator_inject$fn__8869@4a390e69>), :io.pedestal.impl.interceptor/execution-id 8, :servlet-config #<Config org.eclipse.jetty.servlet.ServletHolder$Config@2d0536bb>, :io.pedestal.impl.interceptor/stack (#io.pedestal.impl.interceptor.Interceptor{:name :io.pedestal.http.impl.servlet-interceptor/terminator-injector, :enter #<interceptor$before$fn__6953 io.pedestal.interceptor$before$fn__6953@5b92ece4>, :leave nil, :error nil})}}
+java.lang.NullPointerException: null
+	at clojure.lang.RT.intCast(RT.java:1087) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$set_response.invoke(servlet_interceptor.clj:143) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$send_response.invoke(servlet_interceptor.clj:150) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$leave_ring_response.invoke(servlet_interceptor.clj:279) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$try_f.invoke(interceptor.clj:39) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all_with_binding.invoke(interceptor.clj:166) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all$fn__6867.invoke(interceptor.clj:182) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyToHelper(AFn.java:152) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyTo(AFn.java:144) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$apply.invoke(core.clj:624) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1862) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.RestFn.invoke(RestFn.java:425) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all.invoke(interceptor.clj:180) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$execute.invoke(interceptor.clj:270) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$interceptor_service_fn$fn__8890.invoke(servlet_interceptor.clj:401) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.servlet.FnServlet.service(servlet.clj:28) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:751) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:566) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1111) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:498) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1045) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:98) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.Server.handle(Server.java:461) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:284) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:244) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.io.AbstractConnection$2.run(AbstractConnection.java:534) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:607) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:536) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at java.lang.Thread.run(Unknown Source) [na:1.8.0_31]
+16:44:00.433 [qtp367725289-24] INFO  io.pedestal.http - {:line 69, :msg "GET /about"}
+16:44:00.619 [qtp367725289-27] INFO  io.pedestal.http - {:line 69, :msg "GET /favicon.ico"}
+16:44:00.622 [qtp367725289-27] ERROR i.p.http.impl.servlet-interceptor - {:line 292, :msg "error-stylobate triggered", :context {:response {:headers {"Content-Type" "image/x-icon", "X-XSS-Protection" "1; mode=block", "X-Content-Type-Options" "nosniff", "X-Frame-Options" "DENY", "Strict-Transport-Security" "max-age=31536000; includeSubdomains"}}, :request {:io.pedestal.http.impl.servlet-interceptor/async-supported? true, :remote-addr "127.0.0.1", :servlet-context #<Context ServletContext@o.e.j.s.ServletContextHandler@17947e6d{/,null,AVAILABLE}>, :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:00 GMT
+
+>, :servlet-path "", :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :headers {"cookie" "_phx_web_key=cmZ0MlMzRDk1ZlFQL3h3Z0RuMW5NR0NNSXp6RnQxbE9SVkVab1U5a2FaUT0tLTY0UXkvWnNta3NOUHBMdC9lQ2U5cGc9PQ==--/kE/e5IShGgrhQri4fzE/z0yQHU=; session=.eJxNzMEKgkAQANBfiTl3cW0vgodg9RDMLsqEzFyErHR3saACE_Hf89jp3d4Crb9CtsDuAhmIqQ6sOLUjpmKGwEFGS2XgptBoTlGompHiF5tzDuseuvfr3n6e8fb4LyYk1M6wxlAoqzBh6hMJnXZN7WWso4TBM5Wb_ezoONkq37r1BwNpLL0.B-JFhg.JEDilaaAlg5WrBwAiKC3gaidEhs; _gat=1; _ga=GA1.1.533649088.1426177041", "accept" "*/*", "connection" "keep-alive", "user-agent" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36 OPR/27.0.1689.76", "host" "localhost:8080", "accept-encoding" "gzip, deflate, lzma, sdch", "accept-language" "en-US,en;q=0.8"}, :server-port 8080, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.http.impl.servlet-interceptor/protocol "HTTP/1.1", :path-info "/favicon.ico", :uri "/favicon.ico", :server-name "localhost", :query-string nil, :body #<HttpInputOverHTTP HttpInputOverHTTP@581acd5c>, :scheme :http, :request-method :get, :context-path ""}, :enter-async [#<servlet_interceptor$start_servlet_async io.pedestal.http.impl.servlet_interceptor$start_servlet_async@256f88d6>], :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:00 GMT
+
+>, :route nil, :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.impl.interceptor/terminators (#<servlet_interceptor$terminator_inject$fn__8869 io.pedestal.http.impl.servlet_interceptor$terminator_inject$fn__8869@57eaccee>), :io.pedestal.impl.interceptor/execution-id 10, :servlet-config #<Config org.eclipse.jetty.servlet.ServletHolder$Config@2d0536bb>, :io.pedestal.impl.interceptor/stack (#io.pedestal.impl.interceptor.Interceptor{:name :io.pedestal.http.impl.servlet-interceptor/terminator-injector, :enter #<interceptor$before$fn__6953 io.pedestal.interceptor$before$fn__6953@5b92ece4>, :leave nil, :error nil})}}
+java.lang.NullPointerException: null
+	at clojure.lang.RT.intCast(RT.java:1087) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$set_response.invoke(servlet_interceptor.clj:143) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$send_response.invoke(servlet_interceptor.clj:150) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$leave_ring_response.invoke(servlet_interceptor.clj:279) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$try_f.invoke(interceptor.clj:39) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all_with_binding.invoke(interceptor.clj:166) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all$fn__6867.invoke(interceptor.clj:182) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyToHelper(AFn.java:152) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyTo(AFn.java:144) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$apply.invoke(core.clj:624) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1862) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.RestFn.invoke(RestFn.java:425) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all.invoke(interceptor.clj:180) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$execute.invoke(interceptor.clj:270) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$interceptor_service_fn$fn__8890.invoke(servlet_interceptor.clj:401) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.servlet.FnServlet.service(servlet.clj:28) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:751) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:566) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1111) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:498) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1045) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:98) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.Server.handle(Server.java:461) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:284) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:244) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.io.AbstractConnection$2.run(AbstractConnection.java:534) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:607) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:536) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at java.lang.Thread.run(Unknown Source) [na:1.8.0_31]
+16:44:02.424 [qtp367725289-29] INFO  io.pedestal.http - {:line 69, :msg "GET /_ah/start"}
+16:44:02.568 [qtp367725289-26] INFO  io.pedestal.http - {:line 69, :msg "GET /favicon.ico"}
+16:44:02.571 [qtp367725289-26] ERROR i.p.http.impl.servlet-interceptor - {:line 292, :msg "error-stylobate triggered", :context {:response {:headers {"Content-Type" "image/x-icon", "X-XSS-Protection" "1; mode=block", "X-Content-Type-Options" "nosniff", "X-Frame-Options" "DENY", "Strict-Transport-Security" "max-age=31536000; includeSubdomains"}}, :request {:io.pedestal.http.impl.servlet-interceptor/async-supported? true, :remote-addr "127.0.0.1", :servlet-context #<Context ServletContext@o.e.j.s.ServletContextHandler@17947e6d{/,null,AVAILABLE}>, :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:02 GMT
+
+>, :servlet-path "", :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :headers {"cookie" "_phx_web_key=cmZ0MlMzRDk1ZlFQL3h3Z0RuMW5NR0NNSXp6RnQxbE9SVkVab1U5a2FaUT0tLTY0UXkvWnNta3NOUHBMdC9lQ2U5cGc9PQ==--/kE/e5IShGgrhQri4fzE/z0yQHU=; session=.eJxNzMEKgkAQANBfiTl3cW0vgodg9RDMLsqEzFyErHR3saACE_Hf89jp3d4Crb9CtsDuAhmIqQ6sOLUjpmKGwEFGS2XgptBoTlGompHiF5tzDuseuvfr3n6e8fb4LyYk1M6wxlAoqzBh6hMJnXZN7WWso4TBM5Wb_ezoONkq37r1BwNpLL0.B-JFhg.JEDilaaAlg5WrBwAiKC3gaidEhs; _gat=1; _ga=GA1.1.533649088.1426177041", "accept" "*/*", "connection" "keep-alive", "user-agent" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36 OPR/27.0.1689.76", "host" "localhost:8080", "accept-encoding" "gzip, deflate, lzma, sdch", "accept-language" "en-US,en;q=0.8"}, :server-port 8080, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.http.impl.servlet-interceptor/protocol "HTTP/1.1", :path-info "/favicon.ico", :uri "/favicon.ico", :server-name "localhost", :query-string nil, :body #<HttpInputOverHTTP HttpInputOverHTTP@581acd5c>, :scheme :http, :request-method :get, :context-path ""}, :enter-async [#<servlet_interceptor$start_servlet_async io.pedestal.http.impl.servlet_interceptor$start_servlet_async@256f88d6>], :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:02 GMT
+
+>, :route nil, :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.impl.interceptor/terminators (#<servlet_interceptor$terminator_inject$fn__8869 io.pedestal.http.impl.servlet_interceptor$terminator_inject$fn__8869@5288cacd>), :io.pedestal.impl.interceptor/execution-id 12, :servlet-config #<Config org.eclipse.jetty.servlet.ServletHolder$Config@2d0536bb>, :io.pedestal.impl.interceptor/stack (#io.pedestal.impl.interceptor.Interceptor{:name :io.pedestal.http.impl.servlet-interceptor/terminator-injector, :enter #<interceptor$before$fn__6953 io.pedestal.interceptor$before$fn__6953@5b92ece4>, :leave nil, :error nil})}}
+java.lang.NullPointerException: null
+	at clojure.lang.RT.intCast(RT.java:1087) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$set_response.invoke(servlet_interceptor.clj:143) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$send_response.invoke(servlet_interceptor.clj:150) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$leave_ring_response.invoke(servlet_interceptor.clj:279) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$try_f.invoke(interceptor.clj:39) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all_with_binding.invoke(interceptor.clj:166) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all$fn__6867.invoke(interceptor.clj:182) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyToHelper(AFn.java:152) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyTo(AFn.java:144) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$apply.invoke(core.clj:624) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1862) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.RestFn.invoke(RestFn.java:425) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all.invoke(interceptor.clj:180) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$execute.invoke(interceptor.clj:270) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$interceptor_service_fn$fn__8890.invoke(servlet_interceptor.clj:401) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.servlet.FnServlet.service(servlet.clj:28) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:751) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:566) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1111) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:498) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1045) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:98) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.Server.handle(Server.java:461) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:284) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:244) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.io.AbstractConnection$2.run(AbstractConnection.java:534) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:607) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:536) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at java.lang.Thread.run(Unknown Source) [na:1.8.0_31]
+16:44:04.478 [qtp367725289-30] INFO  io.pedestal.http - {:line 69, :msg "GET /_ah/health"}
+16:44:04.522 [qtp367725289-28] INFO  io.pedestal.http - {:line 69, :msg "GET /static/css/navbar.css"}
+16:44:04.523 [qtp367725289-31] INFO  io.pedestal.http - {:line 69, :msg "GET /static/css/normalize.css"}
+16:44:04.523 [qtp367725289-24] INFO  io.pedestal.http - {:line 69, :msg "GET /static/css/main.css"}
+16:44:04.525 [qtp367725289-27] INFO  io.pedestal.http - {:line 69, :msg "GET /static/js/vendor/modernizr-2.8.3.min.js"}
+16:44:04.525 [qtp367725289-29] INFO  io.pedestal.http - {:line 69, :msg "GET /static/js/plugins.js"}
+16:44:04.529 [qtp367725289-26] INFO  io.pedestal.http - {:line 69, :msg "GET /static/js/main.js"}
+16:44:04.619 [qtp367725289-30] INFO  io.pedestal.http - {:line 69, :msg "GET /favicon.ico"}
+16:44:04.622 [qtp367725289-30] ERROR i.p.http.impl.servlet-interceptor - {:line 292, :msg "error-stylobate triggered", :context {:response {:headers {"Content-Type" "image/x-icon", "X-XSS-Protection" "1; mode=block", "X-Content-Type-Options" "nosniff", "X-Frame-Options" "DENY", "Strict-Transport-Security" "max-age=31536000; includeSubdomains"}}, :request {:io.pedestal.http.impl.servlet-interceptor/async-supported? true, :remote-addr "127.0.0.1", :servlet-context #<Context ServletContext@o.e.j.s.ServletContextHandler@17947e6d{/,null,AVAILABLE}>, :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:04 GMT
+
+>, :servlet-path "", :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :headers {"cookie" "_phx_web_key=cmZ0MlMzRDk1ZlFQL3h3Z0RuMW5NR0NNSXp6RnQxbE9SVkVab1U5a2FaUT0tLTY0UXkvWnNta3NOUHBMdC9lQ2U5cGc9PQ==--/kE/e5IShGgrhQri4fzE/z0yQHU=; session=.eJxNzMEKgkAQANBfiTl3cW0vgodg9RDMLsqEzFyErHR3saACE_Hf89jp3d4Crb9CtsDuAhmIqQ6sOLUjpmKGwEFGS2XgptBoTlGompHiF5tzDuseuvfr3n6e8fb4LyYk1M6wxlAoqzBh6hMJnXZN7WWso4TBM5Wb_ezoONkq37r1BwNpLL0.B-JFhg.JEDilaaAlg5WrBwAiKC3gaidEhs; _gat=1; _ga=GA1.1.533649088.1426177041", "accept" "*/*", "connection" "keep-alive", "user-agent" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36 OPR/27.0.1689.76", "host" "localhost:8080", "accept-encoding" "gzip, deflate, lzma, sdch", "accept-language" "en-US,en;q=0.8"}, :server-port 8080, :servlet-request #<Request (GET /favicon.ico)@1104791865 org.eclipse.jetty.server.Request@41d9c939>, :io.pedestal.http.impl.servlet-interceptor/protocol "HTTP/1.1", :path-info "/favicon.ico", :uri "/favicon.ico", :server-name "localhost", :query-string nil, :body #<HttpInputOverHTTP HttpInputOverHTTP@4db4f66>, :scheme :http, :request-method :get, :context-path ""}, :enter-async [#<servlet_interceptor$start_servlet_async io.pedestal.http.impl.servlet_interceptor$start_servlet_async@256f88d6>], :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:04 GMT
+
+>, :route nil, :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :servlet-request #<Request (GET /favicon.ico)@1104791865 org.eclipse.jetty.server.Request@41d9c939>, :io.pedestal.impl.interceptor/terminators (#<servlet_interceptor$terminator_inject$fn__8869 io.pedestal.http.impl.servlet_interceptor$terminator_inject$fn__8869@422e965e>), :io.pedestal.impl.interceptor/execution-id 20, :servlet-config #<Config org.eclipse.jetty.servlet.ServletHolder$Config@2d0536bb>, :io.pedestal.impl.interceptor/stack (#io.pedestal.impl.interceptor.Interceptor{:name :io.pedestal.http.impl.servlet-interceptor/terminator-injector, :enter #<interceptor$before$fn__6953 io.pedestal.interceptor$before$fn__6953@5b92ece4>, :leave nil, :error nil})}}
+java.lang.NullPointerException: null
+	at clojure.lang.RT.intCast(RT.java:1087) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$set_response.invoke(servlet_interceptor.clj:143) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$send_response.invoke(servlet_interceptor.clj:150) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$leave_ring_response.invoke(servlet_interceptor.clj:279) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$try_f.invoke(interceptor.clj:39) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all_with_binding.invoke(interceptor.clj:166) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all$fn__6867.invoke(interceptor.clj:182) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyToHelper(AFn.java:152) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyTo(AFn.java:144) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$apply.invoke(core.clj:624) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1862) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.RestFn.invoke(RestFn.java:425) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all.invoke(interceptor.clj:180) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$execute.invoke(interceptor.clj:270) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$interceptor_service_fn$fn__8890.invoke(servlet_interceptor.clj:401) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.servlet.FnServlet.service(servlet.clj:28) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:751) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:566) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1111) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:498) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1045) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:98) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.Server.handle(Server.java:461) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:284) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:244) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.io.AbstractConnection$2.run(AbstractConnection.java:534) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:607) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:536) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at java.lang.Thread.run(Unknown Source) [na:1.8.0_31]
+16:44:26.773 [qtp367725289-28] INFO  io.pedestal.http - {:line 69, :msg "GET /about"}
+16:44:26.812 [qtp367725289-24] INFO  io.pedestal.http - {:line 69, :msg "GET /static/css/normalize.css"}
+16:44:26.812 [qtp367725289-31] INFO  io.pedestal.http - {:line 69, :msg "GET /static/css/navbar.css"}
+16:44:26.812 [qtp367725289-29] INFO  io.pedestal.http - {:line 69, :msg "GET /static/css/main.css"}
+16:44:26.815 [qtp367725289-27] INFO  io.pedestal.http - {:line 69, :msg "GET /static/js/vendor/modernizr-2.8.3.min.js"}
+16:44:26.817 [qtp367725289-26] INFO  io.pedestal.http - {:line 69, :msg "GET /static/js/main.js"}
+16:44:26.818 [qtp367725289-31] INFO  io.pedestal.http - {:line 69, :msg "GET /static/js/plugins.js"}
+16:44:26.902 [qtp367725289-28] INFO  io.pedestal.http - {:line 69, :msg "GET /favicon.ico"}
+16:44:26.904 [qtp367725289-28] ERROR i.p.http.impl.servlet-interceptor - {:line 292, :msg "error-stylobate triggered", :context {:response {:headers {"Content-Type" "image/x-icon", "X-XSS-Protection" "1; mode=block", "X-Content-Type-Options" "nosniff", "X-Frame-Options" "DENY", "Strict-Transport-Security" "max-age=31536000; includeSubdomains"}}, :request {:io.pedestal.http.impl.servlet-interceptor/async-supported? true, :remote-addr "127.0.0.1", :servlet-context #<Context ServletContext@o.e.j.s.ServletContextHandler@17947e6d{/,null,AVAILABLE}>, :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:26 GMT
+
+>, :servlet-path "", :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :headers {"cookie" "_phx_web_key=cmZ0MlMzRDk1ZlFQL3h3Z0RuMW5NR0NNSXp6RnQxbE9SVkVab1U5a2FaUT0tLTY0UXkvWnNta3NOUHBMdC9lQ2U5cGc9PQ==--/kE/e5IShGgrhQri4fzE/z0yQHU=; session=.eJxNzMEKgkAQANBfiTl3cW0vgodg9RDMLsqEzFyErHR3saACE_Hf89jp3d4Crb9CtsDuAhmIqQ6sOLUjpmKGwEFGS2XgptBoTlGompHiF5tzDuseuvfr3n6e8fb4LyYk1M6wxlAoqzBh6hMJnXZN7WWso4TBM5Wb_ezoONkq37r1BwNpLL0.B-JFhg.JEDilaaAlg5WrBwAiKC3gaidEhs; _gat=1; _ga=GA1.1.533649088.1426177041", "accept" "*/*", "connection" "keep-alive", "user-agent" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36 OPR/27.0.1689.76", "host" "localhost:8080", "accept-encoding" "gzip, deflate, lzma, sdch", "accept-language" "en-US,en;q=0.8"}, :server-port 8080, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.http.impl.servlet-interceptor/protocol "HTTP/1.1", :path-info "/favicon.ico", :uri "/favicon.ico", :server-name "localhost", :query-string nil, :body #<HttpInputOverHTTP HttpInputOverHTTP@581acd5c>, :scheme :http, :request-method :get, :context-path ""}, :enter-async [#<servlet_interceptor$start_servlet_async io.pedestal.http.impl.servlet_interceptor$start_servlet_async@256f88d6>], :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:26 GMT
+
+>, :route nil, :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.impl.interceptor/terminators (#<servlet_interceptor$terminator_inject$fn__8869 io.pedestal.http.impl.servlet_interceptor$terminator_inject$fn__8869@2bca19c3>), :io.pedestal.impl.interceptor/execution-id 28, :servlet-config #<Config org.eclipse.jetty.servlet.ServletHolder$Config@2d0536bb>, :io.pedestal.impl.interceptor/stack (#io.pedestal.impl.interceptor.Interceptor{:name :io.pedestal.http.impl.servlet-interceptor/terminator-injector, :enter #<interceptor$before$fn__6953 io.pedestal.interceptor$before$fn__6953@5b92ece4>, :leave nil, :error nil})}}
+java.lang.NullPointerException: null
+	at clojure.lang.RT.intCast(RT.java:1087) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$set_response.invoke(servlet_interceptor.clj:143) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$send_response.invoke(servlet_interceptor.clj:150) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$leave_ring_response.invoke(servlet_interceptor.clj:279) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$try_f.invoke(interceptor.clj:39) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all_with_binding.invoke(interceptor.clj:166) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all$fn__6867.invoke(interceptor.clj:182) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyToHelper(AFn.java:152) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyTo(AFn.java:144) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$apply.invoke(core.clj:624) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1862) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.RestFn.invoke(RestFn.java:425) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all.invoke(interceptor.clj:180) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$execute.invoke(interceptor.clj:270) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$interceptor_service_fn$fn__8890.invoke(servlet_interceptor.clj:401) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.servlet.FnServlet.service(servlet.clj:28) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:751) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:566) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1111) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:498) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1045) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:98) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.Server.handle(Server.java:461) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:284) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:244) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.io.AbstractConnection$2.run(AbstractConnection.java:534) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:607) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:536) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at java.lang.Thread.run(Unknown Source) [na:1.8.0_31]
+16:44:28.453 [qtp367725289-24] INFO  io.pedestal.http - {:line 69, :msg "GET /_ah/start"}
+16:44:28.557 [qtp367725289-29] INFO  io.pedestal.http - {:line 69, :msg "GET /favicon.ico"}
+16:44:28.560 [qtp367725289-29] ERROR i.p.http.impl.servlet-interceptor - {:line 292, :msg "error-stylobate triggered", :context {:response {:headers {"Content-Type" "image/x-icon", "X-XSS-Protection" "1; mode=block", "X-Content-Type-Options" "nosniff", "X-Frame-Options" "DENY", "Strict-Transport-Security" "max-age=31536000; includeSubdomains"}}, :request {:io.pedestal.http.impl.servlet-interceptor/async-supported? true, :remote-addr "127.0.0.1", :servlet-context #<Context ServletContext@o.e.j.s.ServletContextHandler@17947e6d{/,null,AVAILABLE}>, :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:28 GMT
+
+>, :servlet-path "", :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :headers {"cookie" "_phx_web_key=cmZ0MlMzRDk1ZlFQL3h3Z0RuMW5NR0NNSXp6RnQxbE9SVkVab1U5a2FaUT0tLTY0UXkvWnNta3NOUHBMdC9lQ2U5cGc9PQ==--/kE/e5IShGgrhQri4fzE/z0yQHU=; session=.eJxNzMEKgkAQANBfiTl3cW0vgodg9RDMLsqEzFyErHR3saACE_Hf89jp3d4Crb9CtsDuAhmIqQ6sOLUjpmKGwEFGS2XgptBoTlGompHiF5tzDuseuvfr3n6e8fb4LyYk1M6wxlAoqzBh6hMJnXZN7WWso4TBM5Wb_ezoONkq37r1BwNpLL0.B-JFhg.JEDilaaAlg5WrBwAiKC3gaidEhs; _gat=1; _ga=GA1.1.533649088.1426177041", "accept" "*/*", "connection" "keep-alive", "user-agent" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36 OPR/27.0.1689.76", "host" "localhost:8080", "accept-encoding" "gzip, deflate, lzma, sdch", "accept-language" "en-US,en;q=0.8"}, :server-port 8080, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.http.impl.servlet-interceptor/protocol "HTTP/1.1", :path-info "/favicon.ico", :uri "/favicon.ico", :server-name "localhost", :query-string nil, :body #<HttpInputOverHTTP HttpInputOverHTTP@581acd5c>, :scheme :http, :request-method :get, :context-path ""}, :enter-async [#<servlet_interceptor$start_servlet_async io.pedestal.http.impl.servlet_interceptor$start_servlet_async@256f88d6>], :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:28 GMT
+
+>, :route nil, :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.impl.interceptor/terminators (#<servlet_interceptor$terminator_inject$fn__8869 io.pedestal.http.impl.servlet_interceptor$terminator_inject$fn__8869@447ee7b5>), :io.pedestal.impl.interceptor/execution-id 30, :servlet-config #<Config org.eclipse.jetty.servlet.ServletHolder$Config@2d0536bb>, :io.pedestal.impl.interceptor/stack (#io.pedestal.impl.interceptor.Interceptor{:name :io.pedestal.http.impl.servlet-interceptor/terminator-injector, :enter #<interceptor$before$fn__6953 io.pedestal.interceptor$before$fn__6953@5b92ece4>, :leave nil, :error nil})}}
+java.lang.NullPointerException: null
+	at clojure.lang.RT.intCast(RT.java:1087) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$set_response.invoke(servlet_interceptor.clj:143) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$send_response.invoke(servlet_interceptor.clj:150) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$leave_ring_response.invoke(servlet_interceptor.clj:279) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$try_f.invoke(interceptor.clj:39) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all_with_binding.invoke(interceptor.clj:166) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all$fn__6867.invoke(interceptor.clj:182) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyToHelper(AFn.java:152) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyTo(AFn.java:144) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$apply.invoke(core.clj:624) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1862) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.RestFn.invoke(RestFn.java:425) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all.invoke(interceptor.clj:180) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$execute.invoke(interceptor.clj:270) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$interceptor_service_fn$fn__8890.invoke(servlet_interceptor.clj:401) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.servlet.FnServlet.service(servlet.clj:28) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:751) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:566) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1111) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:498) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1045) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:98) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.Server.handle(Server.java:461) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:284) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:244) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.io.AbstractConnection$2.run(AbstractConnection.java:534) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:607) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:536) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at java.lang.Thread.run(Unknown Source) [na:1.8.0_31]
+16:44:29.278 [qtp367725289-27] INFO  io.pedestal.http - {:line 69, :msg "GET /_ah/health"}
+16:44:29.417 [qtp367725289-30] INFO  io.pedestal.http - {:line 69, :msg "GET /favicon.ico"}
+16:44:29.419 [qtp367725289-30] ERROR i.p.http.impl.servlet-interceptor - {:line 292, :msg "error-stylobate triggered", :context {:response {:headers {"Content-Type" "image/x-icon", "X-XSS-Protection" "1; mode=block", "X-Content-Type-Options" "nosniff", "X-Frame-Options" "DENY", "Strict-Transport-Security" "max-age=31536000; includeSubdomains"}}, :request {:io.pedestal.http.impl.servlet-interceptor/async-supported? true, :remote-addr "127.0.0.1", :servlet-context #<Context ServletContext@o.e.j.s.ServletContextHandler@17947e6d{/,null,AVAILABLE}>, :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:29 GMT
+
+>, :servlet-path "", :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :headers {"cookie" "_phx_web_key=cmZ0MlMzRDk1ZlFQL3h3Z0RuMW5NR0NNSXp6RnQxbE9SVkVab1U5a2FaUT0tLTY0UXkvWnNta3NOUHBMdC9lQ2U5cGc9PQ==--/kE/e5IShGgrhQri4fzE/z0yQHU=; session=.eJxNzMEKgkAQANBfiTl3cW0vgodg9RDMLsqEzFyErHR3saACE_Hf89jp3d4Crb9CtsDuAhmIqQ6sOLUjpmKGwEFGS2XgptBoTlGompHiF5tzDuseuvfr3n6e8fb4LyYk1M6wxlAoqzBh6hMJnXZN7WWso4TBM5Wb_ezoONkq37r1BwNpLL0.B-JFhg.JEDilaaAlg5WrBwAiKC3gaidEhs; _gat=1; _ga=GA1.1.533649088.1426177041", "accept" "*/*", "connection" "keep-alive", "user-agent" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36 OPR/27.0.1689.76", "host" "localhost:8080", "accept-encoding" "gzip, deflate, lzma, sdch", "accept-language" "en-US,en;q=0.8"}, :server-port 8080, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.http.impl.servlet-interceptor/protocol "HTTP/1.1", :path-info "/favicon.ico", :uri "/favicon.ico", :server-name "localhost", :query-string nil, :body #<HttpInputOverHTTP HttpInputOverHTTP@581acd5c>, :scheme :http, :request-method :get, :context-path ""}, :enter-async [#<servlet_interceptor$start_servlet_async io.pedestal.http.impl.servlet_interceptor$start_servlet_async@256f88d6>], :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:29 GMT
+
+>, :route nil, :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.impl.interceptor/terminators (#<servlet_interceptor$terminator_inject$fn__8869 io.pedestal.http.impl.servlet_interceptor$terminator_inject$fn__8869@3595efeb>), :io.pedestal.impl.interceptor/execution-id 32, :servlet-config #<Config org.eclipse.jetty.servlet.ServletHolder$Config@2d0536bb>, :io.pedestal.impl.interceptor/stack (#io.pedestal.impl.interceptor.Interceptor{:name :io.pedestal.http.impl.servlet-interceptor/terminator-injector, :enter #<interceptor$before$fn__6953 io.pedestal.interceptor$before$fn__6953@5b92ece4>, :leave nil, :error nil})}}
+java.lang.NullPointerException: null
+	at clojure.lang.RT.intCast(RT.java:1087) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$set_response.invoke(servlet_interceptor.clj:143) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$send_response.invoke(servlet_interceptor.clj:150) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$leave_ring_response.invoke(servlet_interceptor.clj:279) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$try_f.invoke(interceptor.clj:39) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all_with_binding.invoke(interceptor.clj:166) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all$fn__6867.invoke(interceptor.clj:182) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyToHelper(AFn.java:152) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyTo(AFn.java:144) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$apply.invoke(core.clj:624) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1862) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.RestFn.invoke(RestFn.java:425) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all.invoke(interceptor.clj:180) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$execute.invoke(interceptor.clj:270) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$interceptor_service_fn$fn__8890.invoke(servlet_interceptor.clj:401) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.servlet.FnServlet.service(servlet.clj:28) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:751) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:566) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1111) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:498) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1045) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:98) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.Server.handle(Server.java:461) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:284) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:244) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.io.AbstractConnection$2.run(AbstractConnection.java:534) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:607) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:536) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at java.lang.Thread.run(Unknown Source) [na:1.8.0_31]
+16:44:33.703 [qtp367725289-31] INFO  io.pedestal.http - {:line 69, :msg "GET /afsdfsdf"}
+16:44:33.705 [qtp367725289-31] ERROR i.p.http.impl.servlet-interceptor - {:line 292, :msg "error-stylobate triggered", :context {:response {:headers {"X-XSS-Protection" "1; mode=block", "X-Content-Type-Options" "nosniff", "X-Frame-Options" "DENY", "Strict-Transport-Security" "max-age=31536000; includeSubdomains"}}, :request {:io.pedestal.http.impl.servlet-interceptor/async-supported? true, :remote-addr "127.0.0.1", :servlet-context #<Context ServletContext@o.e.j.s.ServletContextHandler@17947e6d{/,null,AVAILABLE}>, :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:33 GMT
+
+>, :servlet-path "", :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :headers {"cookie" "_phx_web_key=cmZ0MlMzRDk1ZlFQL3h3Z0RuMW5NR0NNSXp6RnQxbE9SVkVab1U5a2FaUT0tLTY0UXkvWnNta3NOUHBMdC9lQ2U5cGc9PQ==--/kE/e5IShGgrhQri4fzE/z0yQHU=; session=.eJxNzMEKgkAQANBfiTl3cW0vgodg9RDMLsqEzFyErHR3saACE_Hf89jp3d4Crb9CtsDuAhmIqQ6sOLUjpmKGwEFGS2XgptBoTlGompHiF5tzDuseuvfr3n6e8fb4LyYk1M6wxlAoqzBh6hMJnXZN7WWso4TBM5Wb_ezoONkq37r1BwNpLL0.B-JFhg.JEDilaaAlg5WrBwAiKC3gaidEhs; _gat=1; _ga=GA1.1.533649088.1426177041", "accept" "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8", "connection" "keep-alive", "user-agent" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36 OPR/27.0.1689.76", "host" "localhost:8080", "accept-encoding" "gzip, deflate, lzma, sdch", "accept-language" "en-US,en;q=0.8"}, :server-port 8080, :servlet-request #<Request (GET /afsdfsdf)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.http.impl.servlet-interceptor/protocol "HTTP/1.1", :path-info "/afsdfsdf", :uri "/afsdfsdf", :server-name "localhost", :query-string nil, :body #<HttpInputOverHTTP HttpInputOverHTTP@581acd5c>, :scheme :http, :request-method :get, :context-path ""}, :enter-async [#<servlet_interceptor$start_servlet_async io.pedestal.http.impl.servlet_interceptor$start_servlet_async@256f88d6>], :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:33 GMT
+
+>, :route nil, :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :servlet-request #<Request (GET /afsdfsdf)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.impl.interceptor/terminators (#<servlet_interceptor$terminator_inject$fn__8869 io.pedestal.http.impl.servlet_interceptor$terminator_inject$fn__8869@6f9615b4>), :io.pedestal.impl.interceptor/execution-id 33, :servlet-config #<Config org.eclipse.jetty.servlet.ServletHolder$Config@2d0536bb>, :io.pedestal.impl.interceptor/stack (#io.pedestal.impl.interceptor.Interceptor{:name :io.pedestal.http.impl.servlet-interceptor/terminator-injector, :enter #<interceptor$before$fn__6953 io.pedestal.interceptor$before$fn__6953@5b92ece4>, :leave nil, :error nil})}}
+java.lang.NullPointerException: null
+	at clojure.lang.RT.intCast(RT.java:1087) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$set_response.invoke(servlet_interceptor.clj:143) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$send_response.invoke(servlet_interceptor.clj:150) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$leave_ring_response.invoke(servlet_interceptor.clj:279) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$try_f.invoke(interceptor.clj:39) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all_with_binding.invoke(interceptor.clj:166) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all$fn__6867.invoke(interceptor.clj:182) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyToHelper(AFn.java:152) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyTo(AFn.java:144) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$apply.invoke(core.clj:624) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1862) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.RestFn.invoke(RestFn.java:425) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all.invoke(interceptor.clj:180) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$execute.invoke(interceptor.clj:270) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$interceptor_service_fn$fn__8890.invoke(servlet_interceptor.clj:401) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.servlet.FnServlet.service(servlet.clj:28) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:751) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:566) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1111) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:498) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1045) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:98) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.Server.handle(Server.java:461) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:284) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:244) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.io.AbstractConnection$2.run(AbstractConnection.java:534) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:607) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:536) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at java.lang.Thread.run(Unknown Source) [na:1.8.0_31]
+16:44:33.738 [qtp367725289-26] INFO  io.pedestal.http - {:line 69, :msg "GET /favicon.ico"}
+16:44:33.740 [qtp367725289-26] ERROR i.p.http.impl.servlet-interceptor - {:line 292, :msg "error-stylobate triggered", :context {:response {:headers {"Content-Type" "image/x-icon", "X-XSS-Protection" "1; mode=block", "X-Content-Type-Options" "nosniff", "X-Frame-Options" "DENY", "Strict-Transport-Security" "max-age=31536000; includeSubdomains"}}, :request {:io.pedestal.http.impl.servlet-interceptor/async-supported? true, :remote-addr "127.0.0.1", :servlet-context #<Context ServletContext@o.e.j.s.ServletContextHandler@17947e6d{/,null,AVAILABLE}>, :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:33 GMT
+
+>, :servlet-path "", :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :headers {"cookie" "_phx_web_key=cmZ0MlMzRDk1ZlFQL3h3Z0RuMW5NR0NNSXp6RnQxbE9SVkVab1U5a2FaUT0tLTY0UXkvWnNta3NOUHBMdC9lQ2U5cGc9PQ==--/kE/e5IShGgrhQri4fzE/z0yQHU=; session=.eJxNzMEKgkAQANBfiTl3cW0vgodg9RDMLsqEzFyErHR3saACE_Hf89jp3d4Crb9CtsDuAhmIqQ6sOLUjpmKGwEFGS2XgptBoTlGompHiF5tzDuseuvfr3n6e8fb4LyYk1M6wxlAoqzBh6hMJnXZN7WWso4TBM5Wb_ezoONkq37r1BwNpLL0.B-JFhg.JEDilaaAlg5WrBwAiKC3gaidEhs; _gat=1; _ga=GA1.1.533649088.1426177041", "accept" "*/*", "connection" "keep-alive", "user-agent" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36 OPR/27.0.1689.76", "host" "localhost:8080", "accept-encoding" "gzip, deflate, lzma, sdch", "accept-language" "en-US,en;q=0.8"}, :server-port 8080, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.http.impl.servlet-interceptor/protocol "HTTP/1.1", :path-info "/favicon.ico", :uri "/favicon.ico", :server-name "localhost", :query-string nil, :body #<HttpInputOverHTTP HttpInputOverHTTP@581acd5c>, :scheme :http, :request-method :get, :context-path ""}, :enter-async [#<servlet_interceptor$start_servlet_async io.pedestal.http.impl.servlet_interceptor$start_servlet_async@256f88d6>], :servlet-response #<Response HTTP/1.1 0 
+Date: Mon, 16 Mar 2015 21:44:33 GMT
+
+>, :route nil, :servlet #<FnServlet io.pedestal.http.servlet.FnServlet@7c2c8c8>, :servlet-request #<Request (GET /favicon.ico)@2102366358 org.eclipse.jetty.server.Request@7d4f9096>, :io.pedestal.impl.interceptor/terminators (#<servlet_interceptor$terminator_inject$fn__8869 io.pedestal.http.impl.servlet_interceptor$terminator_inject$fn__8869@77a5b1b7>), :io.pedestal.impl.interceptor/execution-id 34, :servlet-config #<Config org.eclipse.jetty.servlet.ServletHolder$Config@2d0536bb>, :io.pedestal.impl.interceptor/stack (#io.pedestal.impl.interceptor.Interceptor{:name :io.pedestal.http.impl.servlet-interceptor/terminator-injector, :enter #<interceptor$before$fn__6953 io.pedestal.interceptor$before$fn__6953@5b92ece4>, :leave nil, :error nil})}}
+java.lang.NullPointerException: null
+	at clojure.lang.RT.intCast(RT.java:1087) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$set_response.invoke(servlet_interceptor.clj:143) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$send_response.invoke(servlet_interceptor.clj:150) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$leave_ring_response.invoke(servlet_interceptor.clj:279) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$try_f.invoke(interceptor.clj:39) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all_with_binding.invoke(interceptor.clj:166) ~[search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all$fn__6867.invoke(interceptor.clj:182) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyToHelper(AFn.java:152) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.AFn.applyTo(AFn.java:144) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$apply.invoke(core.clj:624) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1862) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at clojure.lang.RestFn.invoke(RestFn.java:425) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$leave_all.invoke(interceptor.clj:180) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.impl.interceptor$execute.invoke(interceptor.clj:270) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.impl.servlet_interceptor$interceptor_service_fn$fn__8890.invoke(servlet_interceptor.clj:401) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at io.pedestal.http.servlet.FnServlet.service(servlet.clj:28) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:751) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:566) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1111) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:498) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1045) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:98) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.Server.handle(Server.java:461) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:284) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:244) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.io.AbstractConnection$2.run(AbstractConnection.java:534) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:607) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:536) [search_portal-0.0.1-SNAPSHOT-standalone.jar:na]
+	at java.lang.Thread.run(Unknown Source) [na:1.8.0_31]
