@@ -18,6 +18,7 @@
                  [org.slf4j/log4j-over-slf4j "1.7.7"]
 
                  [clj-http "1.0.1"]
+                 [ns-tracker "0.2.2"]
                  ;; Database
                  [yesql "0.4.0"]
                  [mysql/mysql-connector-java "5.1.32"]

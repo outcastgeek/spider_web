@@ -48,6 +48,9 @@ case $1 in
   deploy)
     gcloud preview app deploy ./app.yaml --project=cedar-hawk-87907
     ;;
+  rollback)
+    appcfg.py rollback . -A cedar-hawk-87907
+    ;;
   esac
 exit 0
 

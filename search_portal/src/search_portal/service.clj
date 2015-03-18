@@ -1,11 +1,41 @@
 (ns search-portal.service
   (:require [io.pedestal.http :as bootstrap]
+            [io.pedestal.http.sse :as sse]
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [io.pedestal.http.route.definition :refer [defroutes]]
             [io.pedestal.interceptor :refer [definterceptor]]
+            [clojure.core.async :as async]
             [search-portal.helpers.view :as view]
             [clj-http.client :as client]))
+
+(defn send-counter
+  "Counts down to 0, sending value of counter to sse context and
+   recursing on a different thread; end event stream when counter
+   is 0."
+  [event-ch count-num]
+  ;; This is how you set a specific event name for the client to listen for
+  (async/put! event-ch {:name "count"
+                        :data (str count-num, ", thread: " (.getId (Thread/currentThread)))})
+  ;; If you just want the client to receive messages on the "message" event, just pass the data string
+  ;(async/put! event-ch (str count-num, ", thread: " (.getId (Thread/currentThread))))
+  (Thread/sleep 1500)
+  (if (> count-num 0)
+    (recur event-ch (dec count-num))
+    (do
+      (async/put! event-ch {:name "close" :data ""})
+      (async/close! event-ch))))
+
+(defn sse-stream-ready
+  "Starts sending counter events to client."
+  [event-ch ctx]
+  ;; The context is passed into this function - it contains everything you'd
+  ;; expect. Additionaly, there's a response-channel in the context. This
+  ;; is the channel that connects directly to the response OutputStream, should
+  ;; you ever need low-level control over the SSE events. It's advised that
+  ;; you never use this channel unless you know what you're doing.
+  (let [{:keys [request response-channel]} ctx]
+    (send-counter event-ch 120)))
 
 ;(defn about-page
 ;  [request]
@@ -16,6 +46,8 @@
 ;(defn home-page
 ;  [request]
 ;  (ring-resp/response "Hello World!"))
+
+
 
 (view/enhance-templates!)
 
@@ -55,7 +87,8 @@
                       {:page "Health"
                        :summary "Healthy Application"}))
 
-(definterceptor not-found []
+(comment
+  (definterceptor not-found []
                 (interceptor
                     :error (fn [context error]
                                (assoc context :response
@@ -65,12 +98,14 @@
                                                                              :message (str error)})
                                                :headers {"Content-Type" "text/html"}}))
                     ))
+)
 
 (defroutes routes
   [[["/" {:get home-page}
      ;; Set default interceptors for /about and any other paths under /
      ^:interceptors [(body-params/body-params) bootstrap/html-body]
      ["/about" {:get about-page}]
+     ["/sse" {:get [::send-counter (sse/sse-setup sse-stream-ready)]}]
      ["/goog" {:get proxied-page}]
      ;; GAE Application Lifecycle Handlers
      ["/_ah/start" {:get gae-start}]
@@ -84,6 +119,7 @@
               ;; dev-mode. If you do, many other keys for configuring
               ;; default interceptors will be ignored.
               ;; :bootstrap/interceptors []
+              ::bootstrap/routes routes
 
               ;; Uncomment next line to enable CORS support, add
               ;; string(s) specifying scheme, host and port for
