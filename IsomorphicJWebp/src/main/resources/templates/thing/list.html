@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>List of Things</title>
+</head>
+<body>
+<h1>List of Things:</h1>
+<ul>
+    <li th:each="thing : ${thing_data}" th:text="|Thing#${thing.id} -> ${thing.name}|"></li>
+</ul>
+</body>
+</html>
+

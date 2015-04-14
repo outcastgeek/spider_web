@@ -6,7 +6,7 @@ import hello.actors.Messages.{Get, Reply}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
-import org.springframework.web.client.{HttpClientErrorException, RestTemplate}
+import org.springframework.web.client.RestTemplate
 
 import scala.collection.immutable.Map
 
@@ -30,7 +30,8 @@ class RestClientActor extends Actor {
         val strResp = response.getBody
         sender ! Reply(Map("response" -> strResp))
       } catch {
-        case ex:HttpClientErrorException =>
+//        case ex:HttpClientErrorException =>
+        case ex:Exception =>
           log.error(s"ERROR:::: $ex")
           context stop self
       }

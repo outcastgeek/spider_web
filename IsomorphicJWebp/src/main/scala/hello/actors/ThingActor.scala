@@ -10,6 +10,7 @@ import hello.models.Thing
 import hello.models.repositories.ThingRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Scope
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 
 import scala.collection.immutable.Map
@@ -35,31 +36,33 @@ class ThingActor @Autowired() (thingRepository: ThingRepository) extends Actor {
   def receive = {
     case Save(thing) =>
       val timeout = startTimer(sender)
-      try {
-        thingRepository.save(thing)
-        log.info(s"Persisted $thing")
-      } catch {
-        case ex:NonUniqueResultException =>
-          log.error(s"Could not persist $thing, ${ex.getMessage}")
-      }
+      thingRepository.save(thing)
+      log.info(s"Persisted $thing")
+      sender ! Reply(Map(ThingActor.replyKey -> thing))
       timeout.cancel()
     case Find(id) =>
       val timeout = startTimer(sender)
       val thing = thingRepository.findOne(id)
-
       sender ! Reply(Map(ThingActor.replyKey -> thing))
       timeout.cancel()
     case ByName(name) =>
       val timeout = startTimer(sender)
-      val  thing = thingRepository.getByName(name)
-      log.info(s"$thing")
-      sender ! Reply(Map(ThingActor.replyKey -> thing))
+      val  thingList = thingRepository.findByName(name, new PageRequest(0, 19))
+      log.info(s"All Things named $name=>")
+      thingList.toList.foreach(thing => log.info(s"$thing"))
+      sender ! Reply(Map(ThingActor.replyKey -> thingList))
       timeout.cancel()
     case All =>
       val timeout = startTimer(sender)
       val thingList = thingRepository.findAll()
+      thingList.toList.foreach(thing => log.info(s"$thing"))
+//      val thingList = thingRepository.findAll().toList
       log.info(s"All Things=>")
-      thingList.foreach(thing => log.info("$thing"))
+//      thingList.foreach(thing => log.info(s"$thing"))
+//      thingList match {
+//        case head::tail => sender ! Reply(Map(ThingActor.replyKey -> head))
+//        case Nil => sender ! NoReply
+//      }
       sender ! Reply(Map(ThingActor.replyKey -> thingList))
       timeout.cancel()
     case NoReply(origin) =>

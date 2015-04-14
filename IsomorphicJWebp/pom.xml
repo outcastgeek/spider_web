@@ -88,6 +88,18 @@
             <artifactId>jackson-module-scala_2.11</artifactId>
             <version>${jacksonVersion}</version>
         </dependency>
+        <!-- JSoup -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.8.1</version>
+        </dependency>
+        <!-- Http -->
+        <!--<dependency>-->
+            <!--<groupId>net.databinder.dispatch</groupId>-->
+            <!--<artifactId>dispatch-core_2.11</artifactId>-->
+            <!--<version>0.11.2</version>-->
+        <!--</dependency>-->
         <!-- EIP -->
         <!--<dependency>-->
             <!--<groupId>org.apache.camel</groupId>-->

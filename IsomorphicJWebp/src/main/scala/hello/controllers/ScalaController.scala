@@ -2,7 +2,7 @@ package hello.controllers
 
 import akka.util.Timeout
 import hello.actors.Messages.Get
-import hello.actors.ThingActor.{ByName, Save}
+import hello.actors.ThingActor.{All, ByName, Save}
 import hello.actors.{ActorFactory, AsyncProcessor}
 import hello.models.Thing
 import hello.models.repositories.ThingRepository
@@ -43,10 +43,11 @@ class ScalaController @Autowired()
   implicit val ec = workerPool
   implicit val af = actorFactory
 
-  val (weather, geoIp, thingCrud) = (
+  val (weather, geoIp, thingCrud, crawler) = (
     actorFactory.genWeatherActor,
     actorFactory.genGeoIpActor,
-    actorFactory.genThingCrudActor
+    actorFactory.genThingCrudActor,
+    actorFactory.genCrawlActor
     )
 
   @RequestMapping(Array("/_ah/start"))
@@ -71,15 +72,44 @@ class ScalaController @Autowired()
 
     val thing = new Thing()
     thing.name = name
-    thingCrud ! Save(thing)
 
     implicit val response = new DeferredResult[ModelAndView]()
 
-    implicit val mv = new ModelAndView("thing")
+    implicit val mv = new ModelAndView("thing/detail")
+
+    implicit val delay: FiniteDuration = 4 seconds
+
+    AsyncProcessor.run(thingCrud, Save(thing))
+
+    response
+  }
+
+  @RequestMapping(Array("/allThingsNamed/{name:.+}"))
+  @ResponseBody
+  def allThingsNamed(@PathVariable("name") name: String): DeferredResult[ModelAndView] = {
+
+    implicit val response = new DeferredResult[ModelAndView]()
+
+    implicit val mv = new ModelAndView("thing/list")
 
     implicit val delay: FiniteDuration = 4 seconds
 
     AsyncProcessor.run(thingCrud, ByName(name))
+
+    response
+  }
+
+  @RequestMapping(Array("/getAllThings"))
+  @ResponseBody
+  def getThingByName: DeferredResult[ModelAndView] = {
+
+    implicit val response = new DeferredResult[ModelAndView]()
+
+    implicit val mv = new ModelAndView("thing/list")
+
+    implicit val delay: FiniteDuration = 4 seconds
+
+    AsyncProcessor.run(thingCrud, All)
 
     response
   }
@@ -90,7 +120,22 @@ class ScalaController @Autowired()
     new ModelAndView("gr8/thyme", "message", "Hello Scalable World!!!!")
   }
 
-  @RequestMapping(Array("/geolocation/{IP_or_hostname:.+}"))
+  @RequestMapping(Array("/crawl/{ip_or_hostname:.+}"))
+  @ResponseBody
+  def crawlLocation(@PathVariable("ip_or_hostname") ip_or_hostname: String): DeferredResult[ModelAndView] = {
+
+    implicit val response = new DeferredResult[ModelAndView]()
+
+    implicit val mv = new ModelAndView("crawl/list")
+
+    implicit val delay: FiniteDuration = 4 seconds
+
+    AsyncProcessor.run(crawler, Get(ip_or_hostname))
+
+    response
+  }
+
+  @RequestMapping(Array("/geolocation/{ip_or_hostname:.+}"))
   @ResponseBody
   def getGeolocation(@PathVariable("ip_or_hostname") ip_or_hostname: String): DeferredResult[ModelAndView] = {
 
