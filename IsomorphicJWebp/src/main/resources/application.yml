@@ -1,0 +1,44 @@
+# Application Properties
+
+spring:
+  application:
+    name: isomorphicjwebp
+#  thymeleaf:
+#    cache: true
+#    cache: false
+  logging:
+    file: /logs/my.log
+    level:
+      org.springframework: OFF
+  datasource:
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+#    driver-class-name: org.h2.Driver
+    jdbc_url: jdbc:h2:mem:isomorphicjwebp;MODE=MySQL;TRACE_LEVEL_FILE=3
+    username: sa
+    max_pool_size: 9
+    min_pool_size: 3
+  jpa:
+    hibernate:
+      # Hibernate ddl auto (create, create-drop, update)
+      ddl-auto: create-drop
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      globally_quoted_identifiers: true
+    dialect: H2
+    show-sql: true
+#    generate-ddl: true
+server:
+  port: 9000
+#  port: 8080
+
+
+
+
+
+
+
+
+
+
+
+
+

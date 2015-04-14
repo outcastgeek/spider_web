@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title th:text="${ip_or_hostname}? |GeoLocation for: ${ip_or_hostname}| : 'No GeoLocation'"></title>
+</head>
+<body>
+    <h1 th:text="${ip_or_hostname}? |GeoLocation for: ${ip_or_hostname}| : 'No GeoLocation'"></h1>
+    <ul>
+        <li>
+            <span>IP</span>
+            <span th:text="${geo_location?.ip}"></span>
+        </li>
+        <li>
+            <span>COUNTRY CODE:</span>
+            <span th:text="${geo_location?.country_code}"></span>
+        </li>
+        <li>
+            <span>COUNTRY NAME:</span>
+            <span th:text="${geo_location?.country_name}"></span>
+        </li>
+        <li>
+            <span>REGION CODE:</span>
+            <span th:text="${geo_location?.region_code}"></span>
+        </li>
+        <li>
+            <span>REGION NAME:</span>
+            <span th:text="${geo_location?.region_name}"></span>
+        </li>
+        <li>
+            <span>CITY:</span>
+            <span th:text="${geo_location?.city}"></span>
+        </li>
+        <li>
+            <span>ZIP CODE:</span>
+            <span th:text="${geo_location?.zip_code}"></span>
+        </li>
+        <li>
+            <span>TIME ZONE:</span>
+            <span th:text="${geo_location?.time_zone}"></span>
+        </li>
+        <li>
+            <span>LATITUDE:</span>
+            <span th:text="${geo_location?.latitude}"></span>
+        </li>
+        <li>
+            <span>LONGITUDE:</span>
+            <span th:text="${geo_location?.longitude}"></span>
+        </li>
+        <li>
+            <span>METRO CODE:</span>
+            <span th:text="${geo_location?.metro_code}"></span>
+        </li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title th:text="${thing_data?.name}"></title>
+</head>
+<body>
+<h1>One Thing:</h1>
+<ul>
+    <li>
+        <span>IP</span>
+        <span th:text="${thing_data?.name}"></span>
+    </li>
+    <li>
+        <span>SCORE:</span>
+        <span th:text="${thing_data?.score}"></span>
+    </li>
+    <li>
+        <span>VERSION:</span>
+        <span th:text="${thing_data?.version}"></span>
+    </li>
+</ul>
+</body>
+</html>
