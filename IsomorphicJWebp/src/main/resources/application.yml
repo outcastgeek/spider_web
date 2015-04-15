@@ -27,7 +27,8 @@ spring:
     show-sql: true
 #    generate-ddl: true
 server:
-  port: 9000
+  port: 1919
+#  port: 9000
 #  port: 8080
 
 

@@ -1,7 +1,5 @@
 package hello.actors
 
-import javax.persistence.NonUniqueResultException
-
 import akka.actor.{Actor, ActorRef, Cancellable}
 import akka.event.Logging
 import hello.actors.Messages.{NoReply, Reply}
@@ -13,9 +11,9 @@ import org.springframework.context.annotation.Scope
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 
+import scala.collection.JavaConversions._
 import scala.collection.immutable.Map
 import scala.concurrent.duration._
-import scala.collection.JavaConversions._
 
 /**
  * Created by outcastgeek on 4/14/15.

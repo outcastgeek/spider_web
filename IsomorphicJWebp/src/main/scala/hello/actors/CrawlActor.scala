@@ -56,7 +56,7 @@ class CrawlActor @Autowired() (actorFactory: ActorFactory) extends Actor {
             pURL
         }
       }
-      origin ! Reply(Map(CrawlActor.replyKey -> collectedURLS))
+      origin ! Reply(Map(CrawlActor.replyKey -> collectedURLS.toArray))
       context become receive
     case NoReply(origin) =>
       log.info(errMsg)
