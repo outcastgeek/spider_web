@@ -47,16 +47,16 @@ class CrawlActor @Autowired() (actorFactory: ActorFactory) extends Actor {
         val href = link.attr("href")
         href match {
           case URL_REGEX(href) =>
-            val wfURL = href
-            log.info(wfURL)
+            val wfURL = if (href.equalsIgnoreCase("http") || href.equalsIgnoreCase("https")) url else href;
+//            log.info(wfURL)
             wfURL
           case _ =>
             val pURL = s"$url$href"
-            log.info(pURL)
+//            log.info(pURL)
             pURL
         }
       }
-      origin ! Reply(Map(CrawlActor.replyKey -> collectedURLS.toArray))
+      origin ! Reply(Map(CrawlActor.replyKey -> collectedURLS.toSet.toArray))
       context become receive
     case NoReply(origin) =>
       log.info(errMsg)
