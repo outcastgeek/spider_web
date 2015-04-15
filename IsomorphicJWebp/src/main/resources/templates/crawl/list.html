@@ -6,9 +6,9 @@
     <title>List of Poems</title>
 </head>
 <body>
-<h1>List of Things:</h1>
+<h1>List of Poems:</h1>
 <ul>
-<li th:each="crawl : ${crawl_data}" th:text="|crawl#${crawl.id} -> ${crawl.name}|"></li>
+<li th:each="url : ${crawl_data}" th:text="${url}"></li>
 </ul>
 </body>
 </html>
