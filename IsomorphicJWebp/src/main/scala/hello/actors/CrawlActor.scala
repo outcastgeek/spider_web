@@ -43,20 +43,27 @@ class CrawlActor @Autowired() (actorFactory: ActorFactory) extends Actor {
       timeout.cancel()
       val pageData = Jsoup.parse(rawPageData.getOrElse(RestClientActor.replyKey, "").asInstanceOf[String])
       val pageLinks = pageData.select("a[href]").toArray().toList.asInstanceOf[List[Element]]
-      val collectedURLS = pageLinks map { link =>
+      val collectedURLS = (pageLinks map { link =>
         val href = link.attr("href")
         href match {
           case URL_REGEX(href) =>
-            val wfURL = if (href.equalsIgnoreCase("http") || href.equalsIgnoreCase("https")) url else href;
+            val wfURL = if (
+              href.equalsIgnoreCase("http") ||
+              href.equalsIgnoreCase("https")
+            ) url else href
 //            log.info(wfURL)
             wfURL
           case _ =>
-            val pURL = s"$url$href"
+            val pURL = if (href.equals("/")) url else s"$url$href"
 //            log.info(pURL)
             pURL
         }
-      }
-      origin ! Reply(Map(CrawlActor.replyKey -> collectedURLS.toSet.toArray))
+      }).toSeq.filter(!_.equalsIgnoreCase(url)).filter(!_.contains("/tag/"))
+
+      val pagingLinks = collectedURLS.filter(_.contains("/page/"))
+      val contentLinks = (collectedURLS diff pagingLinks) union (pagingLinks diff collectedURLS)
+
+      origin ! Reply(Map(CrawlActor.replyKey -> contentLinks.toArray))
       context become receive
     case NoReply(origin) =>
       log.info(errMsg)
