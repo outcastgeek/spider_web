@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>SS Js Comments</title>
+    <link rel="stylesheet" type="text/css" media="all" href="/webjars/bootstrap/3.3.4/dist/css/bootstrap.min.css"/>
+</head>
+<body>
+    <div id="content" th:utext="${rendered_html}"></div>
+    <script src="/webjars/jquery/2.1.3/dist/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.4/dist/js/bootstrap.min.js"></script>
+    <script src="/webjars/react/0.13.1/react-with-addons.min.js"></script>
+    <script src="/webjars/react/0.13.1/JSXTransformer.js"></script>
+    <script src="/static/vendor/showdown.min.js"></script>
+    <script src="/static/commentBox.js"></script>
+    <script type="text/javascript">
+        renderClient();
+    </script>
+</body>
+</html>
+
+
+

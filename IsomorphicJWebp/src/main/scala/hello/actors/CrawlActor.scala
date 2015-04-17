@@ -63,7 +63,7 @@ class CrawlActor @Autowired() (actorFactory: ActorFactory) extends Actor {
       val pagingLinks = collectedURLS.filter(_.contains("/page/"))
       val contentLinks = (collectedURLS diff pagingLinks) union (pagingLinks diff collectedURLS)
 
-      origin ! Reply(Map(CrawlActor.replyKey -> contentLinks.toArray))
+      origin ! Reply(Map(CrawlActor.replyKey -> contentLinks.toArray[String]))
       context become receive
     case NoReply(origin) =>
       log.info(errMsg)

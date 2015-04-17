@@ -26,9 +26,14 @@ spring:
     dialect: H2
     show-sql: true
 #    generate-ddl: true
+  # Allow Thymeleaf templates to be reloaded at dev time
+  thymeleaf:
+    cache: false
+#  template:
+#    cache: false
 server:
-  port: 1919
-#  port: 9000
+#  port: 1919
+  port: 9000
 #  port: 8080
 
 

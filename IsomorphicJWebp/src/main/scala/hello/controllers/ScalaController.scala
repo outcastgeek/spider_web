@@ -2,19 +2,21 @@ package hello.controllers
 
 import akka.util.Timeout
 import hello.actors.Messages.Get
+import hello.actors.NashornActor.RenderComponent
 import hello.actors.ThingActor.{All, ByName, Save}
 import hello.actors.{ActorFactory, AsyncProcessor}
-import hello.models.Thing
-import hello.models.repositories.ThingRepository
+import hello.models.{Comment, Thing}
+import hello.models.repositories.{CommentRepository, ThingRepository}
 import hello.utils.aop.annotations.Loggable
 import hello.utils.aop.interceptors.LoggingInterceptor
 import hello.utils.aop.{ManagedComponentFactory, ManagedComponentProxy}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.{PathVariable, RequestMapping, ResponseBody}
+import org.springframework.web.bind.annotation.{RequestMethod, PathVariable, RequestMapping, ResponseBody}
 import org.springframework.web.context.request.async.DeferredResult
 import org.springframework.web.servlet.ModelAndView
 
+import scala.collection.immutable.List
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
@@ -32,7 +34,8 @@ class FooImpl extends Foo {
  */
 @Controller
 class ScalaController @Autowired()
-(workerPool:ExecutionContext, actorFactory: ActorFactory, thingRepository: ThingRepository) {
+(workerPool:ExecutionContext, actorFactory: ActorFactory,
+ commentRepository: CommentRepository, thingRepository: ThingRepository) {
 
   var foo = ManagedComponentFactory.createComponent[Foo](
     classOf[Foo],
@@ -43,11 +46,12 @@ class ScalaController @Autowired()
   implicit val ec = workerPool
   implicit val af = actorFactory
 
-  val (weather, geoIp, thingCrud, crawler) = (
+  val (weather, geoIp, thingCrud, crawler, nashorn) = (
     actorFactory.genWeatherActor,
     actorFactory.genGeoIpActor,
     actorFactory.genThingCrudActor,
-    actorFactory.genCrawlActor
+    actorFactory.genCrawlActor,
+    actorFactory.genNashornActor
     )
 
   @RequestMapping(Array("/_ah/start"))
@@ -118,6 +122,56 @@ class ScalaController @Autowired()
   @ResponseBody
   def home: ModelAndView = {
     new ModelAndView("gr8/thyme", "message", "Hello Scalable World!!!!")
+  }
+
+  @RequestMapping(Array("/comments"))
+  @ResponseBody
+  def getComments: DeferredResult[ModelAndView] = {
+
+    val comments = commentRepository.findAll()
+
+    implicit val response = new DeferredResult[ModelAndView]()
+
+    implicit val mv = new ModelAndView("comments")
+
+    implicit val delay: FiniteDuration = 4 seconds
+
+    AsyncProcessor.run(
+      nashorn,
+      RenderComponent(
+        comments,
+        List(
+          "static/vendor/showdown.min.js",
+          "static/commentBox.js"
+        )
+      )
+    )
+
+    response
+  }
+
+  @RequestMapping(value = Array("/comments.json"), method = Array(RequestMethod.GET), produces = Array("application/json"))
+  @ResponseBody
+  def commentsList() = {
+
+    val comments = commentRepository.findAll()
+    comments
+  }
+
+  @RequestMapping(value = Array("/comments.json"), method = Array(RequestMethod.POST), produces = Array("application/json"))
+  @ResponseBody
+  def addComments(comment: Comment) = {
+
+//    var count = 0
+//    for (count <- 1 to 4) {
+//      val comment = new Comment()
+//      comment.author = s"author#$count"
+//      comment.text = s"Comment#$count"
+//      commentRepository.save(comment)
+//    }
+
+    commentRepository.save(comment)
+    "success"
   }
 
   @RequestMapping(Array("/crawl/{ip_or_hostname:.+}"))

@@ -23,6 +23,7 @@ class ActorFactory @Autowired()(system: ActorSystem) {
   val counter = system.actorOf(SpringExtProvider.get(system).props("CountingActor"), "counter")
 //  val thingCrud = system.actorOf(SpringExtProvider.get(system).props("ThingActor"), "thingCrud")
 //  val crawler = system.actorOf(SpringExtProvider.get(system).props("CrawlActor"), "crawler")
+//  val nashorn = system.actorOf(SpringExtProvider.get(system).props("NashornActor"), "nashorn")
 
   def genWeatherActor(): ActorRef = {
     val weather = system.actorOf(
@@ -56,6 +57,12 @@ class ActorFactory @Autowired()(system: ActorSystem) {
     val crawler = system.actorOf(
       RoundRobinPool(numCPUs, Some(resizer)).props(SpringExtProvider.get(system).props("CrawlActor")))
     crawler
+  }
+
+  def genNashornActor: ActorRef = {
+    val nashorn = system.actorOf(
+      RoundRobinPool(numCPUs, Some(resizer)).props(SpringExtProvider.get(system).props("NashornActor")))
+    nashorn
   }
 
   def genActor(props:Props): ActorRef = {
