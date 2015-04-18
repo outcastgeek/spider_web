@@ -30,6 +30,6 @@ public class SampleControllerTest {
         ResponseEntity<String> entity = new TestRestTemplate()
                 .getForEntity("http://localhost:" + this.port, String.class);
         assertEquals(HttpStatus.OK, entity.getStatusCode());
-        assertEquals("Hello World!", entity.getBody());
+        assertTrue("Hello World!".equals(entity.getBody()));
     }
 }

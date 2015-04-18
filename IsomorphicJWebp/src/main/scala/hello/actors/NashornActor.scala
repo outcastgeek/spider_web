@@ -4,7 +4,7 @@ import javax.script.ScriptException
 
 import akka.actor.Actor
 import akka.event.Logging
-import hello.actors.Messages.{NoReply, Reply}
+import hello.actors.Messages.{NoReply, ReplyMap}
 import hello.actors.NashornActor.RenderComponent
 import hello.utils.JsUtil
 import jdk.nashorn.api.scripting.NashornScriptEngine
@@ -35,7 +35,7 @@ class NashornActor @Autowired() (nashorn:NashornScriptEngine) extends Actor {
           nashorn.eval(JsUtil.read(js))
         }
         val rendered_html = nashorn.invokeFunction("renderServer", data)
-        sender ! Reply(Map(NashornActor.replyKey -> rendered_html))
+        sender ! ReplyMap(Map(NashornActor.replyKey -> rendered_html))
         timeout.cancel()
       } catch {
         case ex @ (_:ScriptException | _:NoSuchMethodException) =>
@@ -45,7 +45,7 @@ class NashornActor @Autowired() (nashorn:NashornScriptEngine) extends Actor {
       }
     case NoReply(origin) =>
       log.info(errMsg)
-      origin ! Reply(Map("error" -> errMsg))
+      origin ! ReplyMap(Map("error" -> errMsg))
       context become receive
     case _ =>
       log.info("Received Unknown Message")

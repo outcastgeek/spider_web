@@ -2,7 +2,7 @@ package hello.actors
 
 import akka.actor.{Actor, ActorRef, Cancellable}
 import akka.event.Logging
-import hello.actors.Messages.{Get, NoReply, Reply}
+import hello.actors.Messages.{Get, NoReply, ReplyMap}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,7 +39,7 @@ class CrawlActor @Autowired() (actorFactory: ActorFactory) extends Actor {
   }
 
   def extractLinks(origin: ActorRef, url: String, timeout: Cancellable): Receive = {
-    case Reply(rawPageData) =>
+    case ReplyMap(rawPageData) =>
       timeout.cancel()
       val pageData = Jsoup.parse(rawPageData.getOrElse(RestClientActor.replyKey, "").asInstanceOf[String])
       val pageLinks = pageData.select("a[href]").toArray().toList.asInstanceOf[List[Element]]
@@ -63,11 +63,11 @@ class CrawlActor @Autowired() (actorFactory: ActorFactory) extends Actor {
       val pagingLinks = collectedURLS.filter(_.contains("/page/"))
       val contentLinks = (collectedURLS diff pagingLinks) union (pagingLinks diff collectedURLS)
 
-      origin ! Reply(Map(CrawlActor.replyKey -> contentLinks.toArray[String]))
+      origin ! ReplyMap(Map(CrawlActor.replyKey -> contentLinks.toArray[String]))
       context become receive
     case NoReply(origin) =>
       log.info(errMsg)
-      origin ! Reply(Map("error" -> errMsg))
+      origin ! ReplyMap(Map("error" -> errMsg))
       context become receive
   }
 }

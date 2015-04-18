@@ -2,8 +2,8 @@ package hello.actors
 
 import akka.actor.{Actor, ActorRef, Cancellable}
 import akka.event.Logging
-import hello.actors.Messages.{NoReply, Reply}
-import hello.actors.ThingActor.{All, ByName, Find, Save}
+import hello.actors.Messages._
+import hello.actors.ThingActor.{ByName, Save}
 import hello.models.Thing
 import hello.models.repositories.ThingRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,25 +32,28 @@ class ThingActor @Autowired() (thingRepository: ThingRepository) extends Actor {
   }
 
   def receive = {
-    case Save(thing) =>
+    case Save(thing, asMap) =>
       val timeout = startTimer(sender)
       thingRepository.save(thing)
       log.info(s"Persisted $thing")
-      sender ! Reply(Map(ThingActor.replyKey -> thing))
+      if (asMap)
+        sender ! ReplyMap(Map(ThingActor.replyKey -> thing))
+      else
+        sender ! Reply(thing)
       timeout.cancel()
     case Find(id) =>
       val timeout = startTimer(sender)
       val thing = thingRepository.findOne(id)
-      sender ! Reply(Map(ThingActor.replyKey -> thing))
+      sender ! ReplyMap(Map(ThingActor.replyKey -> thing))
       timeout.cancel()
     case ByName(name) =>
       val timeout = startTimer(sender)
       val  thingList = thingRepository.findByName(name, new PageRequest(0, 19))
       log.info(s"All Things named $name=>")
       thingList.toList.foreach(thing => log.info(s"$thing"))
-      sender ! Reply(Map(ThingActor.replyKey -> thingList))
+      sender ! ReplyMap(Map(ThingActor.replyKey -> thingList))
       timeout.cancel()
-    case All =>
+    case All(asMap) =>
       val timeout = startTimer(sender)
       val thingList = thingRepository.findAll()
       thingList.toList.foreach(thing => log.info(s"$thing"))
@@ -61,11 +64,15 @@ class ThingActor @Autowired() (thingRepository: ThingRepository) extends Actor {
 //        case head::tail => sender ! Reply(Map(ThingActor.replyKey -> head))
 //        case Nil => sender ! NoReply
 //      }
-      sender ! Reply(Map(ThingActor.replyKey -> thingList))
+      if (asMap) {
+        sender ! ReplyMap(Map(ThingActor.replyKey -> thingList))
+      } else {
+        sender ! Reply(thingList)
+      }
       timeout.cancel()
     case NoReply(origin) =>
       log.info(errMsg)
-      origin ! Reply(Map("error" -> errMsg))
+      origin ! ReplyMap(Map("error" -> errMsg))
     case _ =>
       log.info("Received Unknown Message")
   }
@@ -74,8 +81,6 @@ class ThingActor @Autowired() (thingRepository: ThingRepository) extends Actor {
 object ThingActor extends CanReply {
   def replyKey: String = "thing_data"
 
-  case class Save(thing: Thing)
-  case class Find(id: java.lang.Long)
+  case class Save(thing: Thing, asMap: Boolean = false)
   case class ByName(name: String)
-  case object All
 }

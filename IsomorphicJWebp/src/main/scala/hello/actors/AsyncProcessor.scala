@@ -13,6 +13,27 @@ import scala.collection.JavaConversions._
  */
 object AsyncProcessor {
 
+  def process(actorRef: ActorRef, msg:Object)
+         (implicit
+          actorFactory:ActorFactory,
+          delay: FiniteDuration,
+          response: DeferredResult[Object]) = {
+
+    actorFactory.genActor(Props(
+      new ReqRepActor {
+
+        override def duration: FiniteDuration = delay
+
+        override def req(): Unit =
+          actorRef ! msg
+
+        override def reply(data: Object) = {
+          response.setResult(data)
+        }
+      }
+    ))
+  }
+
   def run(actorRef: ActorRef, msg:AnyRef)
          (implicit
           actorFactory:ActorFactory,
@@ -28,7 +49,7 @@ object AsyncProcessor {
         override def req(): Unit =
           actorRef ! msg
 
-        override def reply(data: Map[String, Object]): Unit = {
+        override def reply(data: Map[String, Object]) = {
           mv.addAllObjects(data)
           response.setResult(mv)
         }

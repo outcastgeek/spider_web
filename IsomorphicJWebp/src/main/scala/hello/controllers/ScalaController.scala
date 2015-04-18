@@ -1,18 +1,18 @@
 package hello.controllers
 
 import akka.util.Timeout
-import hello.actors.Messages.Get
+import hello.actors.Messages.{All, Get}
 import hello.actors.NashornActor.RenderComponent
-import hello.actors.ThingActor.{All, ByName, Save}
-import hello.actors.{ActorFactory, AsyncProcessor}
-import hello.models.{Comment, Thing}
+import hello.actors.ThingActor.ByName
+import hello.actors.{CommentActor, ActorFactory, AsyncProcessor, ThingActor}
 import hello.models.repositories.{CommentRepository, ThingRepository}
+import hello.models.{Comment, Thing}
 import hello.utils.aop.annotations.Loggable
 import hello.utils.aop.interceptors.LoggingInterceptor
 import hello.utils.aop.{ManagedComponentFactory, ManagedComponentProxy}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.{RequestMethod, PathVariable, RequestMapping, ResponseBody}
+import org.springframework.web.bind.annotation.{PathVariable, RequestMapping, RequestMethod, ResponseBody}
 import org.springframework.web.context.request.async.DeferredResult
 import org.springframework.web.servlet.ModelAndView
 
@@ -46,10 +46,11 @@ class ScalaController @Autowired()
   implicit val ec = workerPool
   implicit val af = actorFactory
 
-  val (weather, geoIp, thingCrud, crawler, nashorn) = (
+  val (weather, geoIp, thingCrud, commentCrud, crawler, nashorn) = (
     actorFactory.genWeatherActor,
     actorFactory.genGeoIpActor,
     actorFactory.genThingCrudActor,
+    actorFactory.genCommentCrudActor,
     actorFactory.genCrawlActor,
     actorFactory.genNashornActor
     )
@@ -83,7 +84,7 @@ class ScalaController @Autowired()
 
     implicit val delay: FiniteDuration = 4 seconds
 
-    AsyncProcessor.run(thingCrud, Save(thing))
+    AsyncProcessor.run(thingCrud, ThingActor.Save(thing))
 
     response
   }
@@ -113,7 +114,7 @@ class ScalaController @Autowired()
 
     implicit val delay: FiniteDuration = 4 seconds
 
-    AsyncProcessor.run(thingCrud, All)
+    AsyncProcessor.run(thingCrud, All(true))
 
     response
   }
@@ -152,15 +153,22 @@ class ScalaController @Autowired()
 
   @RequestMapping(value = Array("/comments.json"), method = Array(RequestMethod.GET), produces = Array("application/json"))
   @ResponseBody
-  def commentsList() = {
+  def commentsList():DeferredResult[Object] = {
+//  def commentsList():DeferredResult[java.util.List[Comment]] = {
 
-    val comments = commentRepository.findAll()
-    comments
+    implicit val response = new DeferredResult[Object]()
+
+    implicit val delay: FiniteDuration = 4 seconds
+
+    AsyncProcessor.process(commentCrud, All(false))
+
+    response
   }
 
   @RequestMapping(value = Array("/comments.json"), method = Array(RequestMethod.POST), produces = Array("application/json"))
   @ResponseBody
-  def addComments(comment: Comment) = {
+  def addComments(comment: Comment):DeferredResult[Object] = {
+//  def addComments(comment: Comment):DeferredResult[java.util.List[Comment]] = {
 
 //    var count = 0
 //    for (count <- 1 to 4) {
@@ -170,8 +178,13 @@ class ScalaController @Autowired()
 //      commentRepository.save(comment)
 //    }
 
-    commentRepository.save(comment)
-    "success"
+    implicit val response = new DeferredResult[Object]()
+
+    implicit val delay: FiniteDuration = 4 seconds
+
+    AsyncProcessor.process(commentCrud, CommentActor.Save(comment))
+
+    response
   }
 
   @RequestMapping(Array("/crawl/{ip_or_hostname:.+}"))

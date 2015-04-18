@@ -2,7 +2,7 @@ package hello.actors
 
 import akka.actor.Actor
 import akka.event.Logging
-import hello.actors.Messages.{NoReply, Reply}
+import hello.actors.Messages.{Reply, NoReply, ReplyMap}
 
 import scala.collection.immutable.Map
 import scala.concurrent.duration._
@@ -24,7 +24,9 @@ trait ReqRepActor extends Actor {
 
   def req():Unit
 
-  def reply(data:Map[String, Object]):Unit
+  def reply(data:Map[String, Object]):Unit = {}
+
+  def reply(data:Object):Unit = {}
 
   override def preStart: Unit = {
     req()
@@ -32,6 +34,10 @@ trait ReqRepActor extends Actor {
 
   def receive: Receive = {
     case Reply(data) =>
+      timeout.cancel()
+      reply(data)
+      context stop self
+    case ReplyMap(data) =>
       timeout.cancel()
       reply(data)
       context stop self

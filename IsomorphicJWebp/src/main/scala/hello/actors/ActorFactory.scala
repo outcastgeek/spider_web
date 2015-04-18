@@ -22,6 +22,7 @@ class ActorFactory @Autowired()(system: ActorSystem) {
 //  val restClient = system.actorOf(SpringExtProvider.get(system).props("RestClientActor"), "restClient")
   val counter = system.actorOf(SpringExtProvider.get(system).props("CountingActor"), "counter")
 //  val thingCrud = system.actorOf(SpringExtProvider.get(system).props("ThingActor"), "thingCrud")
+//  val commentCrud = system.actorOf(SpringExtProvider.get(system).props("CommentActor"), "commentCrud")
 //  val crawler = system.actorOf(SpringExtProvider.get(system).props("CrawlActor"), "crawler")
 //  val nashorn = system.actorOf(SpringExtProvider.get(system).props("NashornActor"), "nashorn")
 
@@ -51,6 +52,12 @@ class ActorFactory @Autowired()(system: ActorSystem) {
     val thingCrud = system.actorOf(
       RoundRobinPool(numCPUs, Some(resizer)).props(SpringExtProvider.get(system).props("ThingActor")))
     thingCrud
+  }
+
+  def genCommentCrudActor: ActorRef = {
+    val commentCrud = system.actorOf(
+      RoundRobinPool(numCPUs, Some(resizer)).props(SpringExtProvider.get(system).props("CommentActor")))
+    commentCrud
   }
 
   def genCrawlActor: ActorRef = {

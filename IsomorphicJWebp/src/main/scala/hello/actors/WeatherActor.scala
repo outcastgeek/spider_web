@@ -39,7 +39,7 @@ class WeatherActor @Autowired() (actorFactory: ActorFactory) extends Actor {
   }
 
   def getCurrentWeather(origin:ActorRef, station:String, timeout: Cancellable):Receive = {
-    case Reply(rawWeatherData) =>
+    case ReplyMap(rawWeatherData) =>
       timeout.cancel()
       val weatherData = XML.loadString(
         rawWeatherData.getOrElse(RestClientActor.replyKey, "").asInstanceOf[String]) \\ "current_observation"
@@ -53,14 +53,14 @@ class WeatherActor @Autowired() (actorFactory: ActorFactory) extends Actor {
       context become incCount(origin, currentWeather)
     case NoReply(origin) =>
       log.info(errMsg)
-      origin ! Reply(Map("error" -> errMsg))
+      origin ! ReplyMap(Map("error" -> errMsg))
       context become receive
   }
 
   def incCount(origin:ActorRef, currentWeatherData:String):Receive = {
     case Count(currentCount) =>
       val currentWeather = s"$currentWeatherData, #$currentCount"
-      origin ! Reply(Map(WeatherActor.replyKey -> currentWeather))
+      origin ! ReplyMap(Map(WeatherActor.replyKey -> currentWeather))
       context become receive
   }
 }

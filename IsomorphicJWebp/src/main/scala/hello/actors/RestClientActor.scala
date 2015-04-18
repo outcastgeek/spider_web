@@ -2,7 +2,7 @@ package hello.actors
 
 import akka.actor.Actor
 import akka.event.Logging
-import hello.actors.Messages.{Get, Reply}
+import hello.actors.Messages.{Get, ReplyMap}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
@@ -28,7 +28,7 @@ class RestClientActor extends Actor {
       try {
         val response = restTemplate.getForEntity(url, classOf[String])
         val strResp = response.getBody
-        sender ! Reply(Map("response" -> strResp))
+        sender ! ReplyMap(Map("response" -> strResp))
       } catch {
 //        case ex:HttpClientErrorException =>
         case ex:Exception =>

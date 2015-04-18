@@ -2,7 +2,7 @@ package hello.actors
 
 import akka.actor.{Actor, ActorRef, Cancellable}
 import akka.event.Logging
-import hello.actors.Messages.{Get, NoReply, Reply}
+import hello.actors.Messages.{Get, NoReply, ReplyMap}
 import hello.utils.ScalaObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Scope
@@ -36,15 +36,15 @@ class GeoIpActor @Autowired() (actorFactory: ActorFactory, scalaObjectMapper: Sc
   }
 
   def getGeolocation(origin:ActorRef, ip_or_hostname:String, timeout:Cancellable): Receive = {
-    case Reply(rawGeoLocationData) =>
+    case ReplyMap(rawGeoLocationData) =>
       timeout.cancel()
       val geoLocationData = scalaObjectMapper.readValue(
         rawGeoLocationData.getOrElse(RestClientActor.replyKey, "").asInstanceOf[String], classOf[java.util.HashMap[String, String]])
-      origin ! Reply(Map("ip_or_hostname" -> ip_or_hostname, GeoIpActor.replyKey -> geoLocationData))
+      origin ! ReplyMap(Map("ip_or_hostname" -> ip_or_hostname, GeoIpActor.replyKey -> geoLocationData))
       context become receive
     case NoReply(origin) =>
       log.info(errMsg)
-      origin ! Reply(Map("error" -> errMsg))
+      origin ! ReplyMap(Map("error" -> errMsg))
       context become receive
   }
 }
