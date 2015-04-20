@@ -17,7 +17,11 @@ http://doc.akka.io/docs/akka/snapshot/scala/routing.html
 http://jonasboner.com/2008/12/09/real-world-scala-managing-cross-cutting-concerns-using-mixin-composition-and-aop/
 http://stackoverflow.com/questions/6874329/scala-constructor-without-parameters
 http://dispatch-classic.databinder.net/Project+Setup.html
+
+http://stackoverflow.com/questions/29137172/maven3-3-1-config-error-in-intellij-idea-14
 http://twitter-archive.appspot.com
+
+
 
 
 

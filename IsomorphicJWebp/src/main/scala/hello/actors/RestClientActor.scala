@@ -2,13 +2,11 @@ package hello.actors
 
 import akka.actor.Actor
 import akka.event.Logging
-import hello.actors.Messages.{Get, ReplyMap}
+import hello.actors.Messages.Get
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
-
-import scala.collection.immutable.Map
 
 /**
  * Created by bebby on 4/10/2015.
@@ -28,7 +26,7 @@ class RestClientActor extends Actor {
       try {
         val response = restTemplate.getForEntity(url, classOf[String])
         val strResp = response.getBody
-        sender ! ReplyMap(Map("response" -> strResp))
+        sender ! strResp
       } catch {
 //        case ex:HttpClientErrorException =>
         case ex:Exception =>
@@ -38,10 +36,6 @@ class RestClientActor extends Actor {
     case _ =>
       log.info("Received Unknown Message")
   }
-}
-
-object RestClientActor extends CanReply {
-  override def replyKey = "response"
 }
 
 

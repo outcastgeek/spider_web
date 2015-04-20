@@ -5,14 +5,17 @@ import hello.utils.ScalaObjectMapper
 import hello.utils.SpringExtension.SpringExtProvider
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.orm.jpa.EntityScan
+import org.springframework.cache.concurrent.ConcurrentMapCache
+import org.springframework.cache.support.SimpleCacheManager
 import org.springframework.context.ApplicationContext
-import org.springframework.context.annotation.{Primary, Bean, Configuration}
+import org.springframework.context.annotation.{Bean, Configuration, Primary}
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.client.RestTemplate
 
-import scala.concurrent.ExecutionContext
 import scala.collection.JavaConversions._
+import scala.collection.immutable.List
+import scala.concurrent.ExecutionContext
 
 /**
  * Created by bebby on 4/8/2015.
@@ -52,6 +55,15 @@ class AppConfig {
     // Initialize the application context in the Akka Spring Extension
     SpringExtProvider.get(system).initialize(applicationContext)
     system
+  }
+
+  @Bean
+  def cacheManager = {
+    val thingCache = new ConcurrentMapCache("thingCache")
+    val commentCache = new ConcurrentMapCache("commentCache")
+    val manager = new SimpleCacheManager
+    manager.setCaches(List(thingCache, commentCache))
+    manager
   }
 
 //  @Bean

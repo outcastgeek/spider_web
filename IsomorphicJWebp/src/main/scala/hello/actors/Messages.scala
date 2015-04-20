@@ -9,13 +9,10 @@ import scala.collection.immutable.Map
  */
 object Messages {
   case object Inc
-  case class Count(count:Int)
   case class Get(url_or_token:String)
-  case class ReplyMap(data:Map[String, Object])
-  case class Reply(data:Object)
   case class NoReply(origin:ActorRef)
 
   // Repository
   case class Find(id: java.lang.Long)
-  case class All(asMap:Boolean = false)
+  case object All
 }

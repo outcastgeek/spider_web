@@ -2,7 +2,7 @@ package hello.actors
 
 import akka.actor.Actor
 import akka.event.Logging
-import hello.actors.Messages.{Count, Inc}
+import hello.actors.Messages.Inc
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 
@@ -27,7 +27,7 @@ class CountingActor extends Actor{
   def receive = {
     case Inc =>
       count = count + 1
-      sender ! Count(count)
+      sender ! count
     case _ =>
       log.info("Received Unknown Message")
   }

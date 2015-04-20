@@ -32,55 +32,41 @@ class CommentActor @Autowired() (commentRepository: CommentRepository) extends A
   }
 
   def receive = {
-    case Save(comment, asMap) =>
+    case Save(comment) =>
       val timeout = startTimer(sender)
-      commentRepository.save(comment)
-      if (asMap)
-        sender ! ReplyMap(Map(CommentActor.replyKey -> comment))
-      else
-        sender ! Reply(comment)
+      val savedComment = commentRepository.save(comment)
+      sender ! savedComment
       log.info(s"Persisted $comment")
       timeout.cancel()
     case Find(id) =>
       val timeout = startTimer(sender)
-      val thing = commentRepository.findOne(id)
-      sender ! ReplyMap(Map(CommentActor.replyKey -> thing))
+      val comment = commentRepository.findOne(id)
+      sender ! comment
       timeout.cancel()
     case ByAuthor(author) =>
       val timeout = startTimer(sender)
       val  commentList = commentRepository.findByAuthor(author, new PageRequest(0, 19))
       log.info(s"All Comment by $author=>")
-      commentList.toList.foreach(thing => log.info(s"$thing"))
-      sender ! ReplyMap(Map(CommentActor.replyKey -> commentList))
+      commentList.toList.foreach(comment => log.info(s"$comment"))
+      sender ! commentList
       timeout.cancel()
-    case All(asMap) =>
+    case All =>
       val timeout = startTimer(sender)
       val commentList = commentRepository.findAll()
-      commentList.toList.foreach(thing => log.info(s"$thing"))
-      //      val thingList = thingRepository.findAll().toList
-      log.info(s"All Comments=>")
-      //      thingList.foreach(thing => log.info(s"$thing"))
-      //      thingList match {
-      //        case head::tail => sender ! Reply(Map(CommentActor.replyKey -> head))
-      //        case Nil => sender ! NoReply
-      //      }
-      if (asMap)
-        sender ! ReplyMap(Map(CommentActor.replyKey -> commentList))
-      else
-        sender ! Reply(commentList)
+//      log.info(s"All Comments=>")
+//      commentList.toList.foreach(comment => log.info(s"$comment"))
+      sender ! commentList
       timeout.cancel()
     case NoReply(origin) =>
       log.info(errMsg)
-      origin ! ReplyMap(Map("error" -> errMsg))
+      origin ! errMsg
     case _ =>
       log.info("Received Unknown Message")
   }
 }
 
-object CommentActor extends CanReply {
-  def replyKey: String = "comment_data"
-
-  case class Save(comment: Comment, asMap: Boolean = false)
+object CommentActor {
+  case class Save(comment: Comment)
   case class ByAuthor(author: String)
 }
 

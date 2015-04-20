@@ -1,15 +1,17 @@
 package hello.actors
 
-import akka.actor.{Actor, ActorRef, Cancellable}
+import akka.actor.Actor
 import akka.event.Logging
+import akka.pattern.ask
+import akka.util.Timeout
 import hello.actors.Messages._
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 
 import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 import scala.xml.XML
-import scala.collection.immutable.Map
 
 /**
  * Created by outcastgeek on 4/9/15.
@@ -29,44 +31,35 @@ class WeatherActor @Autowired() (actorFactory: ActorFactory) extends Actor {
 
   def receive = {
     case Get(station) =>
-      val url = s"http://w1.weather.gov/xml/current_obs/${station.toUpperCase()}.xml"
-      restClient ! Get(url)
       implicit val ec = context.dispatcher
-      val timeout = context.system.scheduler.scheduleOnce(2 seconds, self, NoReply(sender))
-      context become getCurrentWeather(sender, station, timeout)
+      implicit val delay = Timeout(2 seconds)
+      val timeout = context.system.scheduler.scheduleOnce(delay.duration, self, NoReply(sender))
+      val origin = sender
+      val url = s"http://w1.weather.gov/xml/current_obs/${station.toUpperCase()}.xml"
+      restClient ? Get(url) andThen {
+        case Success(rawWeatherData) =>
+          val weatherData = XML.loadString(
+            rawWeatherData.asInstanceOf[String]) \\ "current_observation"
+          val (location, time, currentTemp) =(
+            weatherData \\ "location" text,
+            weatherData \\ "observation_time" text,
+            weatherData \\ "temperature_string" text
+            )
+          val currentWeatherData = s"The current temperature for $location ($station) is $currentTemp, $time"
+          counter ? Inc andThen {
+            case Success(currentCount) =>
+              timeout.cancel()
+              val currentWeather = s"$currentWeatherData, #$currentCount"
+              origin ! currentWeather
+            case Failure(_) =>
+              log.error(errMsg)
+          }
+        case Failure(_) =>
+          log.error(errMsg)
+      }
     case _ =>
       log.info("Received Unknown Message")
   }
-
-  def getCurrentWeather(origin:ActorRef, station:String, timeout: Cancellable):Receive = {
-    case ReplyMap(rawWeatherData) =>
-      timeout.cancel()
-      val weatherData = XML.loadString(
-        rawWeatherData.getOrElse(RestClientActor.replyKey, "").asInstanceOf[String]) \\ "current_observation"
-      val (location, time, currentTemp) =(
-        weatherData \\ "location" text,
-        weatherData \\ "observation_time" text,
-        weatherData \\ "temperature_string" text
-        )
-      val currentWeather = s"The current temperature for $location ($station) is $currentTemp, $time"
-      counter ! Inc
-      context become incCount(origin, currentWeather)
-    case NoReply(origin) =>
-      log.info(errMsg)
-      origin ! ReplyMap(Map("error" -> errMsg))
-      context become receive
-  }
-
-  def incCount(origin:ActorRef, currentWeatherData:String):Receive = {
-    case Count(currentCount) =>
-      val currentWeather = s"$currentWeatherData, #$currentCount"
-      origin ! ReplyMap(Map(WeatherActor.replyKey -> currentWeather))
-      context become receive
-  }
-}
-
-object WeatherActor extends CanReply {
-  override def replyKey: String = "weather"
 }
 
 

@@ -1,15 +1,17 @@
 package hello.actors
 
-import akka.actor.{Actor, ActorRef, Cancellable}
+import akka.actor.Actor
 import akka.event.Logging
-import hello.actors.Messages.{Get, NoReply, ReplyMap}
+import akka.pattern.ask
+import akka.util.Timeout
+import hello.actors.Messages.{Get, NoReply}
 import hello.utils.ScalaObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 
-import scala.collection.immutable.Map
 import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 
 /**
  * Created by bebby on 4/13/2015.
@@ -26,30 +28,24 @@ class GeoIpActor @Autowired() (actorFactory: ActorFactory, scalaObjectMapper: Sc
 
   override def receive: Receive = {
     case Get(ip_or_hostname) =>
-      val url = s"http://freegeoip.net/json/$ip_or_hostname"
-      restClient ! Get(url)
       implicit val ec = context.dispatcher
-      val timeout = context.system.scheduler.scheduleOnce(2 seconds, self, NoReply(sender))
-      context become getGeolocation(sender, ip_or_hostname, timeout)
+      implicit val delay = Timeout(2 seconds)
+      val timeout = context.system.scheduler.scheduleOnce(delay.duration, self, NoReply(sender))
+      val origin = sender
+      val url = s"http://freegeoip.net/json/$ip_or_hostname"
+      restClient ? Get(url) andThen {
+        case Success(rawGeoLocationData) =>
+          timeout.cancel()
+          val geoLocationData = scalaObjectMapper.readValue(
+            rawGeoLocationData.asInstanceOf[String], classOf[java.util.HashMap[String, String]])
+          origin ! geoLocationData
+        case Failure(_) =>
+          origin ! errMsg
+          log.error(errMsg)
+      }
     case _ =>
       log.info("Received Unknown Message")
   }
-
-  def getGeolocation(origin:ActorRef, ip_or_hostname:String, timeout:Cancellable): Receive = {
-    case ReplyMap(rawGeoLocationData) =>
-      timeout.cancel()
-      val geoLocationData = scalaObjectMapper.readValue(
-        rawGeoLocationData.getOrElse(RestClientActor.replyKey, "").asInstanceOf[String], classOf[java.util.HashMap[String, String]])
-      origin ! ReplyMap(Map("ip_or_hostname" -> ip_or_hostname, GeoIpActor.replyKey -> geoLocationData))
-      context become receive
-    case NoReply(origin) =>
-      log.info(errMsg)
-      origin ! ReplyMap(Map("error" -> errMsg))
-      context become receive
-  }
 }
 
-object GeoIpActor extends CanReply {
-  override def replyKey: String = "geo_location"
-}
 

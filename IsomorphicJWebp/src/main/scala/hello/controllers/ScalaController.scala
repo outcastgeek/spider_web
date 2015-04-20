@@ -1,24 +1,26 @@
 package hello.controllers
 
+import akka.pattern.ask
 import akka.util.Timeout
-import hello.actors.Messages.{All, Get}
+import hello.actors.Messages._
 import hello.actors.NashornActor.RenderComponent
-import hello.actors.ThingActor.ByName
-import hello.actors.{CommentActor, ActorFactory, AsyncProcessor, ThingActor}
-import hello.models.repositories.{CommentRepository, ThingRepository}
+import hello.actors.{ActorFactory, CommentActor, ThingActor}
 import hello.models.{Comment, Thing}
 import hello.utils.aop.annotations.Loggable
 import hello.utils.aop.interceptors.LoggingInterceptor
 import hello.utils.aop.{ManagedComponentFactory, ManagedComponentProxy}
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.{PathVariable, RequestMapping, RequestMethod, ResponseBody}
 import org.springframework.web.context.request.async.DeferredResult
 import org.springframework.web.servlet.ModelAndView
 
-import scala.collection.immutable.List
+import scala.collection.JavaConverters._
+import scala.collection.immutable.{List, Map}
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 
 trait Foo {
   def foo(msg: String)
@@ -34,8 +36,9 @@ class FooImpl extends Foo {
  */
 @Controller
 class ScalaController @Autowired()
-(workerPool:ExecutionContext, actorFactory: ActorFactory,
- commentRepository: CommentRepository, thingRepository: ThingRepository) {
+(workerPool:ExecutionContext, actorFactory: ActorFactory) {
+
+  val LOG = LoggerFactory.getLogger(classOf[ScalaController])
 
   var foo = ManagedComponentFactory.createComponent[Foo](
     classOf[Foo],
@@ -84,7 +87,13 @@ class ScalaController @Autowired()
 
     implicit val delay: FiniteDuration = 4 seconds
 
-    AsyncProcessor.run(thingCrud, ThingActor.Save(thing))
+    thingCrud ? ThingActor.Save(thing) andThen {
+      case Success(data) =>
+        mv.addAllObjects(Map("thing_data" -> data).asJava)
+        response.setResult(mv)
+      case Failure(_) =>
+        LOG.error("ERROR::::")
+    }
 
     response
   }
@@ -99,7 +108,13 @@ class ScalaController @Autowired()
 
     implicit val delay: FiniteDuration = 4 seconds
 
-    AsyncProcessor.run(thingCrud, ByName(name))
+    thingCrud ? ThingActor.ByName(name) andThen {
+      case Success(data) =>
+        mv.addAllObjects(Map("thing_data" -> data).asJava)
+        response.setResult(mv)
+      case Failure(_) =>
+        LOG.error("ERROR::::")
+    }
 
     response
   }
@@ -114,7 +129,13 @@ class ScalaController @Autowired()
 
     implicit val delay: FiniteDuration = 4 seconds
 
-    AsyncProcessor.run(thingCrud, All(true))
+    thingCrud ? All andThen {
+      case Success(data) =>
+        mv.addAllObjects(Map("thing_data" -> data).asJava)
+        response.setResult(mv)
+      case Failure(_) =>
+        LOG.error("ERROR::::")
+    }
 
     response
   }
@@ -129,46 +150,55 @@ class ScalaController @Autowired()
   @ResponseBody
   def getComments: DeferredResult[ModelAndView] = {
 
-    val comments = commentRepository.findAll()
-
     implicit val response = new DeferredResult[ModelAndView]()
 
     implicit val mv = new ModelAndView("comments")
 
     implicit val delay: FiniteDuration = 4 seconds
 
-    AsyncProcessor.run(
-      nashorn,
-      RenderComponent(
-        comments,
-        List(
-          "static/vendor/showdown.min.js",
-          "static/commentBox.js"
-        )
-      )
-    )
+    commentCrud ? All andThen {
+      case Success(comments) =>
+        nashorn ? RenderComponent(
+          comments.asInstanceOf[Object],
+          List(
+            "static/vendor/showdown.min.js",
+            "static/commentBox.js"
+          )
+        ) andThen {
+          case Success(rendered_html) =>
+            mv.addAllObjects(Map("rendered_html" -> rendered_html).asJava)
+            response.setResult(mv)
+          case Failure(_) =>
+            LOG.error("ERROR::::")
+        }
+      case Failure(_) =>
+        LOG.error("ERROR::::")
+    }
 
     response
   }
 
   @RequestMapping(value = Array("/comments.json"), method = Array(RequestMethod.GET), produces = Array("application/json"))
   @ResponseBody
-  def commentsList():DeferredResult[Object] = {
-//  def commentsList():DeferredResult[java.util.List[Comment]] = {
+  def commentsList():DeferredResult[java.util.List[Comment]] = {
 
-    implicit val response = new DeferredResult[Object]()
+    implicit val response = new DeferredResult[java.util.List[Comment]]()
 
     implicit val delay: FiniteDuration = 4 seconds
 
-    AsyncProcessor.process(commentCrud, All(false))
+    commentCrud ? All andThen {
+      case Success(comments) =>
+        response.setResult(comments.asInstanceOf[java.util.List[Comment]])
+      case Failure(_) =>
+        LOG.error("ERROR::::")
+    }
 
     response
   }
 
   @RequestMapping(value = Array("/comments.json"), method = Array(RequestMethod.POST), produces = Array("application/json"))
   @ResponseBody
-  def addComments(comment: Comment):DeferredResult[Object] = {
-//  def addComments(comment: Comment):DeferredResult[java.util.List[Comment]] = {
+  def addComments(comment: Comment):DeferredResult[Comment] = {
 
 //    var count = 0
 //    for (count <- 1 to 4) {
@@ -178,11 +208,16 @@ class ScalaController @Autowired()
 //      commentRepository.save(comment)
 //    }
 
-    implicit val response = new DeferredResult[Object]()
+    implicit val response = new DeferredResult[Comment]()
 
     implicit val delay: FiniteDuration = 4 seconds
 
-    AsyncProcessor.process(commentCrud, CommentActor.Save(comment))
+    commentCrud ? CommentActor.Save(comment) andThen {
+      case Success(comment) =>
+        response.setResult(comment.asInstanceOf[Comment])
+      case Failure(_) =>
+        LOG.error("ERROR::::")
+    }
 
     response
   }
@@ -197,7 +232,13 @@ class ScalaController @Autowired()
 
     implicit val delay: FiniteDuration = 4 seconds
 
-    AsyncProcessor.run(crawler, Get(ip_or_hostname))
+    crawler ? Get(ip_or_hostname) andThen {
+      case Success(data) =>
+        mv.addAllObjects(Map("crawl_data" -> data).asJava)
+        response.setResult(mv)
+      case Failure(_) =>
+        LOG.error("ERROR::::")
+    }
 
     response
   }
@@ -212,7 +253,17 @@ class ScalaController @Autowired()
 
     implicit val delay: FiniteDuration = 4 seconds
 
-    AsyncProcessor.run(geoIp, Get(ip_or_hostname))
+    geoIp ? Get(ip_or_hostname) andThen {
+      case Success(data) =>
+        mv.addAllObjects(
+          Map(
+          "ip_or_hostname" -> ip_or_hostname,
+          "geo_location" -> data
+          ).asJava)
+        response.setResult(mv)
+      case Failure(_) =>
+        LOG.error("ERROR::::")
+    }
 
     response
   }
@@ -227,7 +278,13 @@ class ScalaController @Autowired()
 
     implicit val delay: FiniteDuration = 4 seconds
 
-    AsyncProcessor.run(weather, Get(station))
+    weather ? Get(station) andThen {
+      case Success(data) =>
+        mv.addAllObjects(Map("weather" -> data).asJava)
+        response.setResult(mv)
+      case Failure(_) =>
+        LOG.error("ERROR::::")
+    }
 
     response
   }

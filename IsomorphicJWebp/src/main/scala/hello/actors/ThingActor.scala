@@ -32,55 +32,46 @@ class ThingActor @Autowired() (thingRepository: ThingRepository) extends Actor {
   }
 
   def receive = {
-    case Save(thing, asMap) =>
+    case Save(thing) =>
       val timeout = startTimer(sender)
       thingRepository.save(thing)
       log.info(s"Persisted $thing")
-      if (asMap)
-        sender ! ReplyMap(Map(ThingActor.replyKey -> thing))
-      else
-        sender ! Reply(thing)
+      sender ! thing
       timeout.cancel()
     case Find(id) =>
       val timeout = startTimer(sender)
       val thing = thingRepository.findOne(id)
-      sender ! ReplyMap(Map(ThingActor.replyKey -> thing))
+      sender ! thing
       timeout.cancel()
     case ByName(name) =>
       val timeout = startTimer(sender)
       val  thingList = thingRepository.findByName(name, new PageRequest(0, 19))
       log.info(s"All Things named $name=>")
       thingList.toList.foreach(thing => log.info(s"$thing"))
-      sender ! ReplyMap(Map(ThingActor.replyKey -> thingList))
+      sender ! thingList
       timeout.cancel()
-    case All(asMap) =>
+    case All =>
       val timeout = startTimer(sender)
       val thingList = thingRepository.findAll()
       thingList.toList.foreach(thing => log.info(s"$thing"))
 //      val thingList = thingRepository.findAll().toList
-      log.info(s"All Things=>")
+//      log.info(s"All Things=>")
 //      thingList.foreach(thing => log.info(s"$thing"))
 //      thingList match {
 //        case head::tail => sender ! Reply(Map(ThingActor.replyKey -> head))
 //        case Nil => sender ! NoReply
 //      }
-      if (asMap) {
-        sender ! ReplyMap(Map(ThingActor.replyKey -> thingList))
-      } else {
-        sender ! Reply(thingList)
-      }
+      sender ! thingList
       timeout.cancel()
     case NoReply(origin) =>
       log.info(errMsg)
-      origin ! ReplyMap(Map("error" -> errMsg))
+      origin ! errMsg
     case _ =>
       log.info("Received Unknown Message")
   }
 }
 
-object ThingActor extends CanReply {
-  def replyKey: String = "thing_data"
-
-  case class Save(thing: Thing, asMap: Boolean = false)
+object ThingActor {
+  case class Save(thing: Thing)
   case class ByName(name: String)
 }
