@@ -284,6 +284,22 @@
                     <!--<finalName>IsomorphicJWebp</finalName>-->
                 <!--</configuration>-->
             <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>com.google.appengine</groupId>-->
+                <!--<artifactId>gcloud-maven-plugin</artifactId>-->
+                <!--<version>1.9.17</version>-->
+                <!--<configuration>-->
+                    <!--&lt;!&ndash;<gcloud_directory>/usr/foo/private/google-cloud-sdk</gcloud_directory>&ndash;&gt;-->
+                    <!--<enable_mvm_logs>true</enable_mvm_logs>-->
+                    <!--&lt;!&ndash;<gcloud_verbosity>debug</gcloud_verbosity>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<version>specific_version</version>&ndash;&gt;-->
+                    <!--<version>1</version>-->
+                    <!--<set_default>true</set_default>-->
+                    <!--<log_level>debug</log_level>-->
+                    <!--&lt;!&ndash;<log_level>info</log_level>&ndash;&gt;-->
+                    <!--<max_module_instances>2</max_module_instances>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

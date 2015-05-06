@@ -1,6 +1,31 @@
 
+nginx:
+  build: ./nginx
+  links:
+    - app:app
+    # - app1:app1
+    # - app2:app2
+    # - app3:app3
+  ports:
+    - "80:80"
+
 app:
   build: .
-  ports:
-   - "8080:8080"
+  expose:
+    - 8080
+
+# app1:
+#   build: .
+#   expose:
+#     - 8080
+
+# app2:
+#   build: .
+#   expose:
+#     - 8080
+#
+# app3:
+#   build: .
+#   expose:
+#     - 8080
 
