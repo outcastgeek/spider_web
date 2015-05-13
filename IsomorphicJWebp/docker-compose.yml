@@ -1,31 +1,59 @@
-
-nginx:
-  build: ./nginx
+#
+# Load Balancer
+#
+loadbalancer:
+  build: ./lb/
   links:
-    - app:app
-    # - app1:app1
-    # - app2:app2
-    # - app3:app3
+    - consul
   ports:
     - "80:80"
-
-app:
-  build: .
-  expose:
-    - 8080
-
-# app1:
-#   build: .
-#   expose:
-#     - 8080
-
-# app2:
-#   build: .
-#   expose:
-#     - 8080
+    - "8181:8181"
+  environment:
+    SERVICE_NAME: loadbalancer
 #
-# app3:
-#   build: .
-#   expose:
-#     - 8080
-
+# Service Discovery - Consul
+#
+consul:
+  command: -server -bootstrap -advertise 10.0.2.15
+  image: progrium/consul:latest
+  ports:
+    - "8300:8300"
+    - "8400:8400"
+    - "8500:8500"
+    - "8600:53/udp"
+#
+# Service Discovery - Registrator
+#
+registrator:
+  command: -ip=10.0.2.15 consul://consul:8500
+  image: gliderlabs/registrator:latest
+  links:
+    - consul
+  volumes:
+    - "/var/run/docker.sock:/tmp/docker.sock"
+#
+# Web
+#
+web:
+  build: .
+  ports:
+    - "9000"
+  environment:
+    SERVICE_NAME: web
+    SERVICE_TAGS: production
+  volumes:
+    - .:/code
+  links:
+    - redis
+    - consul
+#
+# Storage
+#
+redis:
+  image: redis
+  ports:
+    - "6379:6379"
+  links:
+    - consul
+  environment:
+    SERVICE_NAME: redis

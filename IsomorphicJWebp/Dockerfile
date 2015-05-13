@@ -5,8 +5,6 @@ FROM java:8
 
 ADD ./target/com.outcastgeek.isomorphicjwebp-1.0-SNAPSHOT.jar /srv/IsomorphicJWebp.jar
 
-#EXPOSE 8080 9000
-
 ENV logs /var/log/app_engine/custom_logs
 
 ENV JAVA_OPTS "-server -Xmx256M -Xms128m –XX:+UseG1GC -XX:+UseStringDeduplicationJVM"
