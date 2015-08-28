@@ -3,6 +3,20 @@
 BASEDIR=$(dirname $0)
 DEPLOY_DIR=$BASEDIR/target/search_portal-0.0.1-SNAPSHOT/
 
+function package_application() {
+    echo "Packaging the Application..."
+    lein clean
+    lein ring uberwar
+    mkdir $DEPLOY_DIR
+    pwd
+    jar xf $BASEDIR/target/search_portal-0.0.1-SNAPSHOT-standalone.war
+    mv WEB-INF/classes/appengine-web.xml WEB-INF/
+    mkdir -p $DEPLOY_DIR/META-INF $DEPLOY_DIR/WEB-INF
+    cp -r META-INF/* $DEPLOY_DIR/META-INF/
+    cp -r WEB-INF/* $DEPLOY_DIR/WEB-INF/
+    rm -r META-INF WEB-INF
+}
+
 case $1 in
 
   clean_host)
@@ -19,26 +33,12 @@ case $1 in
     docker rmi $(docker images -q)
     ;;
   run_stage)
-     echo "Packaging the Application..."
-     lein clean
-     lein ring uberwar
-     mkdir $DEPLOY_DIR
-     pwd
-     jar xf $BASEDIR/target/search_portal-0.0.1-SNAPSHOT-standalone.war
-     mv WEB-INF/classes/appengine-web.xml WEB-INF/
-     mv META-INF $DEPLOY_DIR/
-     mv WEB-INF $DEPLOY_DIR/
+     package_application
      echo "Deploying Application to STAGE"
      mvn appengine:devserver
     ;;
   deploy_prod)
-    echo "Packaging the Application..."
-    lein clean
-    lein ring uberwar
-    cd $BASEDIR/target && mkdir search_portal-0.0.1-SNAPSHOT
-    jar xf ../search_portal-0.0.1-SNAPSHOT-standalone.war
-    mv WEB-INF/classes/appengine-web.xml WEB-INF/
-    cd $BASEDIR
+    package_application
     echo "Deploying Application to PROD"
     mvn appengine:update
     ;;

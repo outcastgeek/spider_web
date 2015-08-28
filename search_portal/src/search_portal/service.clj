@@ -4,6 +4,7 @@
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [io.pedestal.http.route.definition :refer [defroutes]]
+            [io.pedestal.log :as log]
             ;[io.pedestal.interceptor :refer [definterceptor]]
             [clojure.core.async :as async]
             [search-portal.helpers.view :as view]
@@ -53,6 +54,8 @@
 
 (defn home-page
   [request]
+  (log/info :message "Welcome!"
+            :request request)
   (view/render-file "templates/home.jinja2"
                     {:page "Home"
                      :summary "Hello World!!!"}))

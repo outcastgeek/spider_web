@@ -1,5 +1,10 @@
 <!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
 <configuration scan="true" scanPeriod="10 seconds">
+    <!--<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"/>-->
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
 
   <!--&lt;!&ndash; Simple file output &ndash;&gt;-->
   <!--<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
