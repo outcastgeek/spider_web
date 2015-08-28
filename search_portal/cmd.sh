@@ -1,58 +1,56 @@
 #!/bin/bash
 
+BASEDIR=$(dirname $0)
+DEPLOY_DIR=$BASEDIR/target/search_portal-0.0.1-SNAPSHOT/
+
 case $1 in
-  build_app)
-    docker build -t outcastgeek/pazod $2
-    ;;
-  run_app)
-    docker run -d -p $2 outcastgeek/pazod
-    ;;
-  images)
-    docker images
-    ;;
-  img_clean)
-    docker rmi $@
-    ;;
-  clean_untagged_images)
+
+  clean_host)
+    docker rm $(docker ps -a -q)
     docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
     ;;
-  processes)
-    docker ps -a
+  check_local_port)
+    lsof -i :$2
     ;;
-  clean_pcs)
-    docker kill $(docker ps -a -q) && docker rm $(docker ps -a -q)
+  wipe_clean)
+    # Delete all containers
+    docker rm $(docker ps -a -q)
+    # Delete all images
+    docker rmi $(docker images -q)
     ;;
-  pc_clean)
-    docker kill $2 && docker rm $2
+  run_stage)
+     echo "Packaging the Application..."
+     lein clean
+     lein ring uberwar
+     mkdir $DEPLOY_DIR
+     pwd
+     jar xf $BASEDIR/target/search_portal-0.0.1-SNAPSHOT-standalone.war
+     mv WEB-INF/classes/appengine-web.xml WEB-INF/
+     mv META-INF $DEPLOY_DIR/
+     mv WEB-INF $DEPLOY_DIR/
+     echo "Deploying Application to STAGE"
+     mvn appengine:devserver
     ;;
-  build_es)
-    docker build -t outcastgeek/es $2
+  deploy_prod)
+    echo "Packaging the Application..."
+    lein clean
+    lein ring uberwar
+    cd $BASEDIR/target && mkdir search_portal-0.0.1-SNAPSHOT
+    jar xf ../search_portal-0.0.1-SNAPSHOT-standalone.war
+    mv WEB-INF/classes/appengine-web.xml WEB-INF/
+    cd $BASEDIR
+    echo "Deploying Application to PROD"
+    mvn appengine:update
     ;;
-  run_es) # docker run -d -p 9200:9200 -p 9300:9300 dockerfile/elasticsearch
-          # docker run -d -p 9200:9200 -p 9300:9300 -v <data-dir>:/data dockerfile/elasticsearch /elasticsearch/bin/elasticsearch -Des.config=/data/elasticsearch.yml
-    docker run -d -p $2:9200 -p $3:9300 outcastgeek/es
-    #docker run -d -p $2:9200 -p $3:9300 -v $4:/data outcastgeek/es /elasticsearch/bin/elasticsearch -Des.config=/data/elasticsearch.yml
+  phx_db_migrate)
+    echo "Running DB Migrations"
+    cd $BASEDIR && mix ecto.migrate
+    echo "Done with the DB Migrations"
     ;;
-  build_pg)
-    docker build -t outcastgeek/pg $2
-    ;;
-  run_pg) # run -d --name postgresql -p 5432:5432 -e POSTGRESQL_PASS=oe9jaacZLbR9pN imanel/postgresql
-    docker run -d --name postgresql -p $2:5432 -e POSTGRESQL_PASS=$3 outcastgeek/pg
-    ;;
-  pg_client) # docker run -i --rm -t --entrypoint="bash" --link postgresql:postgresql imanel/postgresql -c 'psql -h $POSTGRESQL_PORT_5432_TCP_ADDR --user postgres'
-    docker run -i --rm -t --entrypoint="bash" --link postgresql:postgresql outcastgeek/pg -c 'psql -h $POSTGRESQL_PORT_5432_TCP_ADDR --user postgres'
-    ;;
-  prep_prod)
-    lein with-profile prod uberjar
-    ;;
-  deploy)
-    gcloud preview app deploy ./app.yaml --project=cedar-hawk-87907
-    ;;
-  rollback)
-    appcfg.py rollback . -A cedar-hawk-87907
+  phx_db_seed)
+    echo "Seeding DB"
+    cd $BASEDIR && mix run seeds.exs
+    echo "Done Seeding the DB"
     ;;
   esac
 exit 0
-
-
-

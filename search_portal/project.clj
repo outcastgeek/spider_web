@@ -14,7 +14,7 @@
                  ;; [io.pedestal/pedestal.tomcat "0.4.0"]
                  ;;[io.pedestal/pedestal.immutant "0.4.0"]
 
-                 [ch.qos.logback/logback-classic "1.1.2" :exclusions [org.slf4j/slf4j-api]]
+                 [ch.qos.logback/logback-classic "1.1.3" :exclusions [org.slf4j/slf4j-api]]
                  [org.slf4j/jul-to-slf4j "1.7.12"]
                  [org.slf4j/jcl-over-slf4j "1.7.12"]
                  [org.slf4j/log4j-over-slf4j "1.7.12"]
@@ -39,12 +39,12 @@
             [lein-ring "0.9.6"]]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
-  :ring {:handler search-portal.service/routes}
+  :ring {:handler search-portal.server/servlet}
   :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "search-portal.server/run-dev"]}
                    :dependencies [[io.pedestal/pedestal.service-tools "0.4.0"]
                                   [org.xerial/sqlite-jdbc "3.7.2"]
                                   ;;; War Deployment
-                                  ;[javax.servlet/servlet-api "2.5"]
+                                  [javax.servlet/servlet-api "2.5"]
                                   ;; Clojurescript
                                   [org.clojure/clojurescript "1.7.48"]
                                   [org.omcljs/om "0.9.0" :exclusions [cljsjs/react]]
@@ -54,5 +54,5 @@
                                   [cljs-http "0.1.37"]
                                   [figwheel "0.3.7"]]}
              :prod {:aot :all}}
-  :main ^{:skip-aot true} search-portal.server)
-
+  :main ^{:skip-aot true} search-portal.server
+  :pom-plugins [[com.google.appengine/appengine-maven-plugin "1.9.25"]])
