@@ -4,7 +4,7 @@
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [io.pedestal.http.route.definition :refer [defroutes]]
-            [io.pedestal.interceptor :refer [definterceptor]]
+            ;[io.pedestal.interceptor :refer [definterceptor]]
             [clojure.core.async :as async]
             [search-portal.helpers.view :as view]
             [clj-http.client :as client]))
@@ -47,10 +47,6 @@
 ;  [request]
 ;  (ring-resp/response "Hello World!"))
 
-
-
-(view/enhance-templates!)
-
 ;; Check this out: https://www.google.com/search?client=opera&q=clojure+pedestal+interceptors+example&sourceid=opera&ie=UTF-8&oe=UTF-8
 ;; Check this out: http://stackoverflow.com/questions/17797647/how-to-write-a-simple-error-interceptor
 ;; Check this out: http://frankiesardo.github.io/blog/2014/12/15/give-pedestal-another-chance/
@@ -68,7 +64,7 @@
                        :summary (view/render-only "{{ shout|embiginate }}"
                                                    {:shout (format "Clojure %s - served from %s"
                                                                    (clojure-version)
-                                                                   (route/url-for ::about-page))})}))
+                                                                   (route/url-for :about))})}))
 
 (defn proxied-page
     [request]
@@ -87,29 +83,32 @@
                       {:page "Health"
                        :summary "Healthy Application"}))
 
-(comment
-  (definterceptor not-found []
-                (interceptor
-                    :error (fn [context error]
-                               (assoc context :response
-                                              {:status 404
-                                               :body (view/render-file-only "templates/error/404.jinja2"
-                                                                            {:page "404 Not Found"
-                                                                             :message (str error)})
-                                               :headers {"Content-Type" "text/html"}}))
-                    ))
-)
+;(comment
+;  (definterceptor not-found []
+;                (interceptor
+;                    :error (fn [context error]
+;                               (assoc context :response
+;                                              {:status 404
+;                                               :body (view/render-file-only "templates/error/404.jinja2"
+;                                                                            {:page "404 Not Found"
+;                                                                             :message (str error)})
+;                                               :headers {"Content-Type" "text/html"}}))
+;                    ))
+;)
 
 (defroutes routes
-  [[["/" {:get home-page}
+  [[["/" {:get [:home home-page]}
      ;; Set default interceptors for /about and any other paths under /
      ^:interceptors [(body-params/body-params) bootstrap/html-body]
-     ["/about" {:get about-page}]
+     ["/about" {:get [:about about-page]}]
      ["/sse" {:get [::send-counter (sse/sse-setup sse-stream-ready)]}]
-     ["/goog" {:get proxied-page}]
+     ["/goog" {:get [:proxied-page proxied-page]}]
      ;; GAE Application Lifecycle Handlers
-     ["/_ah/start" {:get gae-start}]
-     ["/_ah/health" {:get gae-health}]]]])
+     ["/_ah/start" {:get [:gae-start gae-start]}]
+     ["/_ah/health" {:get [:gae-health gae-health]}]]]])
+
+;; Enhance Templates!!!
+(view/enhance-templates! routes)
 
 ;; Consumed by search-portal.server/create-server
 ;; See bootstrap/default-interceptors for additional options you can configure
