@@ -22,3 +22,5 @@ To learn more about configuring Logback, read its [documentation](http://logback
 ## Links
 * [Other examples](https://github.com/pedestal/samples)
 
+## Miscellaneous
+* [Control Number of Threads core.async](https://stackoverflow.com/questions/18779296/clojure-core-async-any-way-to-control-number-of-threads-in-that-go-thread)

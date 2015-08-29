@@ -14,10 +14,15 @@
                  ;; [io.pedestal/pedestal.tomcat "0.4.0"]
                  ;;[io.pedestal/pedestal.immutant "0.4.0"]
 
+                 ;[ch.qos.logback/logback-classic "1.1.3"]
+
                  [ch.qos.logback/logback-classic "1.1.3" :exclusions [org.slf4j/slf4j-api]]
                  [org.slf4j/jul-to-slf4j "1.7.12"]
                  [org.slf4j/jcl-over-slf4j "1.7.12"]
                  [org.slf4j/log4j-over-slf4j "1.7.12"]
+
+                 ;[ch.qos.logback/logback-core "1.1.3"]
+                 ;[org.slf4j/slf4j-jcl "1.7.12"]
 
                  [clj-http "2.0.0"]
                  [ns-tracker "0.3.0"]
@@ -33,13 +38,16 @@
                  [buddy "0.6.2"]
                  [bouncer "0.3.3"]
                  ;;[com.cemerick/friend "0.2.1"]
+
+                 [com.google.appengine/appengine-api-stubs "1.9.25"]
                  ]
   :plugins [[lein-cljsbuild "1.1.0"]
             [lein-figwheel "0.3.7"]
             [lein-ring "0.9.6"]]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
-  :ring {:handler search-portal.server/servlet}
+  :ring {:handler search-portal.service/service
+         :web-xml "config/web.xml"}
   :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "search-portal.server/run-dev"]}
                    :dependencies [[io.pedestal/pedestal.service-tools "0.4.0"]
                                   [org.xerial/sqlite-jdbc "3.7.2"]

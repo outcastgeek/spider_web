@@ -4,11 +4,23 @@
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [io.pedestal.http.route.definition :refer [defroutes]]
-            [io.pedestal.log :as log]
+            ;[io.pedestal.log :as log]
             ;[io.pedestal.interceptor :refer [definterceptor]]
+            [clojure.core.async.impl.concurrent :as conc]
+            [clojure.core.async.impl.exec.threadpool :as tp]
             [clojure.core.async :as async]
             [search-portal.helpers.view :as view]
-            [clj-http.client :as client]))
+            [clj-http.client :as client])
+    (:import (com.google.appengine.api ThreadManager)))
+
+;; https://stackoverflow.com/questions/18779296/clojure-core-async-any-way-to-control-number-of-threads-in-that-go-thread
+(defonce my-executor
+         (java.util.concurrent.Executors/newCachedThreadPool
+             (. ThreadManager currentRequestThreadFactory)))
+
+(alter-var-root #'clojure.core.async.impl.dispatch/executor
+                (constantly (delay (tp/thread-pool-executor my-executor))))
+
 
 (defn send-counter
   "Counts down to 0, sending value of counter to sse context and
@@ -54,8 +66,8 @@
 
 (defn home-page
   [request]
-  (log/info :message "Welcome!"
-            :request request)
+  ;(log/info :message "Welcome!"
+  ;          :request request)
   (view/render-file "templates/home.jinja2"
                     {:page "Home"
                      :summary "Hello World!!!"}))
